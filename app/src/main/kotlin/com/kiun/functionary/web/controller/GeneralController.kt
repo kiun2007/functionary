@@ -2,6 +2,7 @@ package com.kiun.functionary.web.controller
 
 import com.github.pagehelper.PageInfo
 import com.kiun.functionary.base.DataWrap
+import com.kiun.functionary.base.TableDataInfo
 import com.kiun.functionary.base.anno.StartPage
 import com.kiun.functionary.service.GeneralService
 import jakarta.annotation.Resource
@@ -16,9 +17,9 @@ class GeneralController {
 
     @StartPage
     @GetMapping("{tableName}/listOfPage")
-    fun listOfPage(@PathVariable("tableName") tableName: String, @RequestParam req: Map<String, Any>): DataWrap<PageInfo<Any>?>{
-        val list = generalService?.selectList<Any>(tableName, req) ?: return DataWrap.fail("未查询到数据")
-        return DataWrap.success(PageInfo(list))
+    fun listOfPage(@PathVariable("tableName") tableName: String, @RequestParam req: Map<String, Any>): TableDataInfo<Any>{
+        val list = generalService?.selectList<Any>(tableName, req) ?: return TableDataInfo.fail("未查询到数据")
+        return TableDataInfo.success(list)
     }
 
     @GetMapping("{tableName}/list")

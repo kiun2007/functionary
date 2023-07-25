@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 @EnableScheduling
 @ConfigurationPropertiesScan
-@MapperScan("com.kiun.functionary.**")
+@MapperScan("com.kiun.functionary.dao.**")
 @ComponentScan("com.kiun.functionary.**", "com.github.pagehelper.**")
 class FunctionaryApplication
 

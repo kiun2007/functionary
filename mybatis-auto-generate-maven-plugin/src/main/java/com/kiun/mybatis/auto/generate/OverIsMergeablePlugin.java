@@ -50,16 +50,15 @@ public class OverIsMergeablePlugin extends PluginAdapter {
 
         properties.getList("import").forEach(topLevelClass::addImportedType);
 
-        String tableName = introspectedTable.getTableConfiguration().getTableName();
-        String remarks = introspectedTable.getRemarks();
-        String modelName = topLevelClass.getType().getShortName();
+        RuntimeAttribute runtimeAttribute =
+                new RuntimeAttribute()
+                        .put("tableName", introspectedTable.getTableConfiguration().getTableName())
+                        .put("remarks", introspectedTable.getRemarks())
+                        .put("recordType", introspectedTable.getBaseRecordType())
+                        .put("modelName", topLevelClass.getType().getShortName());
 
         properties.getList("anno").forEach(item->{
-            String annoStr = item.replaceAll("\\$\\{tableName}", String.format("\"%s\"", tableName));
-            annoStr = annoStr.replaceAll("\\$\\{remarks}", String.format("\"%s\"", remarks));
-            annoStr = annoStr.replaceAll("\\$\\{modelName}", String.format("\"%s\"", modelName));
-
-            topLevelClass.addAnnotation(annoStr);
+            topLevelClass.addAnnotation(runtimeAttribute.run(item, true));
         });
 
         return super.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
@@ -142,23 +141,20 @@ public class OverIsMergeablePlugin extends PluginAdapter {
             interfaze.addMethod(method);
         }
 
-        String tableName = introspectedTable.getTableConfiguration().getTableName();
-        String remarks = introspectedTable.getRemarks();
-        String recordType = introspectedTable.getBaseRecordType();
-        String exampleType = introspectedTable.getExampleType();
-
-        properties.getEntry(PluginProperties.ClientRoot).forEach(item->{
-            List<String> paramClz = properties.getList(item.getKey().replace(PluginProperties.ClientRoot, "clientRootParam"));
+        properties.getList("clientImport").forEach(item-> interfaze.addImportedType(new FullyQualifiedJavaType(item)));
+        RuntimeAttribute runtimeAttribute =
+                new RuntimeAttribute()
+                        .put("tableName", introspectedTable.getTableConfiguration().getTableName())
+                        .put("remarks", introspectedTable.getRemarks())
+                        .put("recordType", introspectedTable.getBaseRecordType())
+                        .put("exampleType", introspectedTable.getExampleType());
+        properties.getEntryAndAttribute(PluginProperties.ClientRoot).forEach(item->{
+            List<String> paramClz = properties.getList("clientRootParam-" + item.getSort());
 
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(item.getValue());
             interfaze.addImportedType(type);
             paramClz.forEach(iType->{
-                iType = iType.replaceAll("\\$\\{tableName}", tableName);
-                iType = iType.replaceAll("\\$\\{remarks}", remarks);
-                iType = iType.replaceAll("\\$\\{recordType}", recordType);
-                iType = iType.replaceAll("\\$\\{exampleType}", exampleType);
-                FullyQualifiedJavaType fullType = new FullyQualifiedJavaType(iType);
-
+                FullyQualifiedJavaType fullType = new FullyQualifiedJavaType(runtimeAttribute.run(iType, false));
                 interfaze.addImportedType(fullType);
                 type.addTypeArgument(fullType);
             });

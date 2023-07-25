@@ -21,7 +21,10 @@
             <!--类注解 内置字段 ${remarks} = 备注, ${tableName} = 表格名称, ${modelName} = JavaBean类名 -->
             <property name="import-1" value="io.swagger.annotations.ApiModel"/>
             <property name="import-2" value="io.swagger.annotations.ApiModelProperty"/>
+            <property name="import-3" value="com.kiun.functionary.base.general.ListBuild"/>
+            <property name="import-4" value="com.kiun.functionary.base.general.ListBuildItem"/>
             <property name="anno-1" value="@ApiModel(description=${remarks})"/>
+            <property name="anno-2" value="@ListBuild(value = ${modelName}, title = ${remarks})"/>
             <property name="criterionClass" value="com.kiun.functionary.base.Criterion"/>
             <property name="criteriaRoot" value="com.kiun.functionary.base.BaseCriteria"/>
             <property name="clientRoot-1" value="com.kiun.functionary.base.BaseExampleMapper"/>
@@ -30,8 +33,9 @@
         </plugin>
 
         <commentGenerator type="com.kiun.mybatis.auto.generate.DataBaseComment">
-            <!--类注解 内置字段 ${remarks} = 备注, ${tableName} = 表格名称, ${tableRemarks} = 表格备注 -->
+            <!--字段注解 内置字段 ${remarks} = 备注, ${tableName} = 表格名称, ${tableRemarks} = 表格备注 -->
             <property name="anno-1" value="@ApiModelProperty(${remarks})"/>
+            <property name="anno-2" value="@ListBuildItem(title = ${remarks})"/>
         </commentGenerator>
 
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 127.0.0.1-->
@@ -70,27 +74,29 @@
         <!-- 指定mapper接口生成的位置 targetPackage、targetProject同javaModelGenerator中作用一样 -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.kiun.functionary.dao.sys" targetProject="src/main/kotlin">
             <property name="enableSubPackages" value="true"/>
-<!--            <property name="rootInterface" value="com.szxgm.gusustreet.app.db.BaseMapper"/>-->
         </javaClientGenerator>
 
         <!-- 指定数据库表 或者视图.-->
         <!-- domainObjectName：生成的domain类的名字,当表名和domain类的名字有差异时一定要设置，如果不设置，直接使用表名作为domain类的名字；-->
         <!-- 可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；-->
-        <table tableName="sys_dict" domainObjectName="SysDict" />
+<!--        <table tableName="sys_dict" domainObjectName="SysDict" />-->
         <table tableName="sys_dict_item" domainObjectName="SysDictItem">
             <property name="useId" value="0"/>
         </table>
-        <table tableName="sys_log" domainObjectName="SysLog" />
-        <table tableName="sys_login_log" domainObjectName="SysLoginLog" />
-        <table tableName="sys_menu" domainObjectName="SysMenu" />
-        <table tableName="sys_organ" domainObjectName="SysOrgan" />
-        <table tableName="sys_resource" domainObjectName="SysResource" />
-        <table tableName="sys_role" domainObjectName="SysRole" />
+<!--        <table tableName="sys_log" domainObjectName="SysLog" />-->
+<!--        <table tableName="sys_login_log" domainObjectName="SysLoginLog" />-->
+<!--        <table tableName="sys_menu" domainObjectName="SysMenu" />-->
+<!--        <table tableName="sys_organ" domainObjectName="SysOrgan" />-->
+<!--        <table tableName="sys_resource" domainObjectName="SysResource" />-->
+<!--        <table tableName="sys_role" domainObjectName="SysRole" />-->
+<!--        <table tableName="sys_role_menu" domainObjectName="SysRoleMenu">-->
+<!--            <property name="rootClass" value="@null"/>-->
+<!--        </table>-->
 <!--        <table tableName="sys_user" domainObjectName="SysUser">-->
 <!--            <property name="rootClass" value="org.springframework.security.core.userdetails.UserDetails"/>-->
 <!--        </table>-->
-        <table tableName="sys_user_role_ele" domainObjectName="SysUserRoleEle">
-            <property name="rootClass" value="@null"/>
-        </table>
+<!--        <table tableName="sys_user_role_ele" domainObjectName="SysUserRoleEle">-->
+<!--            <property name="rootClass" value="@null"/>-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>

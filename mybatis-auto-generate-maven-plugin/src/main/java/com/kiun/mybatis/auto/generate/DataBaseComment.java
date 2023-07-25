@@ -57,15 +57,32 @@ public class DataBaseComment extends DefaultCommentGenerator {
         addCommentStart(field, remarks);
         field.addJavaDocLine(" */");
 
-        String tableName = introspectedTable.getTableConfiguration().getTableName();
-        String tableRemarks = introspectedTable.getRemarks();
+        RuntimeAttribute runtimeAttribute = new RuntimeAttribute();
+        runtimeAttribute
+                .put("tableName", introspectedTable.getTableConfiguration().getTableName())
+                .put("tableRemarks", introspectedTable.getRemarks())
+                .put("fieldName", introspectedColumn.getJavaProperty())
+                .put("remarks", remarks)
+                .put("columnName", introspectedColumn.getActualColumnName());
 
-        pluginProperties.getList("anno").forEach(item->{
+        boolean isKey = introspectedTable.getPrimaryKeyColumns().stream().anyMatch(item-> item.getActualColumnName().equals(introspectedColumn.getActualColumnName()));
 
-            String annoStr = item.replaceAll("\\$\\{tableName}", String.format("\"%s\"", tableName));
-            annoStr = annoStr.replaceAll("\\$\\{remarks}", String.format("\"%s\"", remarks));
-            annoStr = annoStr.replaceAll("\\$\\{tableRemarks}", String.format("\"%s\"", tableRemarks));
-            field.addAnnotation(annoStr);
+        pluginProperties.getEntryAndAttribute("anno").forEach(item-> {
+            if ("keyNotWith".equals(item.getAttribute()) && isKey){
+                return;
+            }
+
+            if ("onlyKey".equals(item.getAttribute()) && !isKey){
+                return;
+            }
+
+            if (item.getAttribute().startsWith("appoint")){
+                String[] sp = item.getAttribute().split(",");
+                if (sp.length == 2 && !introspectedColumn.getJavaProperty().equals(sp[1])){
+                    return;
+                }
+            }
+            field.addAnnotation(runtimeAttribute.run(item.getValue(), true));
         });
     }
 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <!--/*@thymesVar id="buildData" type="com.kiun.functionary.base.general.ListBuildData"*/-->
+        <th:block th:include="include :: header(${buildData.title})" />
+        <th:block th:include="include :: bootstrap-fileinput-css" />
+        <style>
+            .codeLine {
+                height: 50px;
+            }
+            .codeMultiline {
+                height: 250px;
+            }
+        </style>
+    </head>
+    <body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <!--/*@thymesVar id="data" type="java.util.Map"*/-->
+        <form class="form-horizontal m" method="post" id="form-add">
+            <!--/*@thymesVar id="items" type="java.util.List<com.kiun.functionary.base.general.ListBuildItemData>"*/-->
+            <div class="form-group" th:each="item:${items}">
+                <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.ListBuildItemData"*/-->
+                <label th:if="${item.getEditWith()&&item.getType()!='Hidden'}" class="col-sm-3 control-label" th:text="${item.getTitle()+':'}"></label>
+                <div th:if="${item.getEditWith()}" class="col-sm-8" th:switch="${item.getType()}">
+                    <input
+                            th:case="Hidden"
+                            type="hidden"
+                            th:value="${data.get(item.getValue())}"
+                            th:name="${item.getValue()}">
+                    <input
+                            th:case="Text"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}"
+                            class="form-control"
+                            type="text"
+                            autocomplete="false">
+                    <input type="text"
+                           th:case="Date"
+                           th:id="${item.getValue()}"
+                           th:name="${item.getValue()}"
+                           th:value="${data.get(item.getValue())}"
+                           placeholder="选择日期"
+                           class="layui-input form-control">
+                    <input type="text"
+                           th:case="Time"
+                           th:id="${item.getValue()}"
+                           th:name="${item.getValue()}"
+                           th:value="${data.get(item.getValue())}"
+                           placeholder="选择日期"
+                           class="layui-input form-control">
+                    <input type="text"
+                           th:case="DateAndTime"
+                           th:id="${item.getValue()}"
+                           th:name="${item.getValue()}"
+                           th:value="${data.get(item.getValue())}"
+                           placeholder="选择日期"
+                           class="layui-input form-control">
+                    <input
+                            th:case="Number"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}"
+                            class="form-control"
+                            type="number"
+                            autocomplete="false">
+                    <input
+                            th:case="Bool"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}"
+                            class="form-control"
+                            type="checkbox"
+                            autocomplete="false">
+                    <select
+                            th:case="Enum"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}"
+                            class="form-control">
+                        <option
+                            th:each="optionItem: ${item.getEnums().entrySet()}"
+                            th:text="${optionItem.getValue()}"
+                            th:value="${optionItem.getKey()}">
+                        </option>
+                    </select>
+                    <pre
+                        th:case="CodeLine"
+                        th:id="${item.getValue()}"
+                        class="codeLine"></pre>
+                    <pre
+                        th:case="CodeMultiline"
+                        th:id="${item.getValue()}"
+                        class="codeMultiline"></pre>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript" th:src="@{/js/ace/ace.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ace/ext-language_tools.js}"></script>
+    <script type="text/javascript" th:src="@{/js/editor.js}"></script>
+    <script th:inline="javascript">
+        var message = [[${buildData.queueHeader}]]
+        var items = [[${items}]]
+        var data = [[${data}]]
+        var prefix = ctx + "generalList/" + message;
+        $("#form-add").validate({
+            rules:{
+                xxxx:{
+                    required:true,
+                },
+            },
+            focusCleanup: true
+        });
+
+        items.filter(item=> item.type === 'CodeLine' || item.type === 'CodeMultiline').forEach(item=>{
+            if (!window.editorMap){
+                window.editorMap = {}
+            }
+            window.editorMap[item.value] = data[item.value]
+            initEditor(item.value, data[item.value])
+        })
+
+        layui.use(['laydate'], function(){
+            items.filter(item=> item.type === 'Date' || item.type === 'Time' || item.type === 'DateAndTime').forEach(item=>{
+                var laydate = layui.laydate;
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#' + item.value
+                })
+            })
+        })
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                var postData = {...window.editorMap,...$('#form-add').toJson()}
+                console.log(postData)
+                $.operate.saveJson(prefix + "/save", postData);
+            }
+        }
+
+        function exportJavaFile(input){
+            if (window.FileReader) {
+                var file = input.files[0];
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var result = this.result
+                    var codeLine = result.matchAll(/private (.+?) (.+?);/g)
+                    var res;
+                    var jsonString = "{\n"
+                    while (res = codeLine.next()) {
+
+                        if (res.done){
+                            break
+                        }
+                        jsonString += `"${res.value[2]}" : null, \n`
+                    }
+                    jsonString += "}\n"
+                    $('#rule').text(jsonString)
+                    console.log(jsonString)
+                }
+                reader.readAsText(file);
+            }
+        }
+    </script>
+    </body>
+</html>

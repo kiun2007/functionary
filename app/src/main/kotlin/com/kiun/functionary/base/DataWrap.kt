@@ -1,13 +1,11 @@
 package com.kiun.functionary.base
 
-import org.springframework.boot.json.GsonJsonParser
-import org.springframework.http.converter.json.GsonBuilderUtils
-import org.springframework.http.converter.json.GsonFactoryBean
+import com.github.pagehelper.Page
 
 data class DataWrap<T>(
-    val message: String? = null,
+    val msg: String? = null,
     val data: T? = null,
-    val success: Boolean = true
+    val code: Int = 0
 ){
 
     companion object{
@@ -25,7 +23,43 @@ data class DataWrap<T>(
          */
         @JvmStatic
         fun<T> fail(message: String?): DataWrap<T> {
-            return DataWrap(message = message, success = false)
+            return DataWrap(msg = message, code = -1)
+        }
+    }
+}
+
+data class TableDataInfo<T>(
+
+    /**
+     * 总记录数
+     * */
+    var total: Long = 0,
+
+    /**
+     * 列表数据
+     * */
+    val rows: List<T>? = null,
+
+    /**
+     * 消息状态码
+     * */
+    val code: Int = 0,
+
+    val msg: String? = null
+){
+    companion object {
+
+        @JvmStatic
+        fun<T> success(data: List<T>? = null): TableDataInfo<T> {
+            var total = data?.size?:0
+            if (data is Page<T>){
+                total = data?.total.toInt()
+            }
+            return TableDataInfo(total = total?.toLong(), rows = data)
+        }
+
+        fun fail(msg: String?) : TableDataInfo<Any> {
+            return TableDataInfo<Any>(msg = msg)
         }
     }
 }

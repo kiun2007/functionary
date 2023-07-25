@@ -10,17 +10,13 @@
         <version>3.1.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <url>https://github.com/kiun2007/functionary</url>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>snapshots</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+    <properties>
+        <java.version>17</java.version>
+        <kotlin.version>1.6.10</kotlin.version>
+        <mybatis.auto.generate.version>1.0.20</mybatis.auto.generate.version>
+    </properties>
 
     <!-- 许可证信息，这里是Apache 2.0的许可证，大家根据实际情况修改 -->
     <licenses>
@@ -39,29 +35,11 @@
         </developer>
     </developers>
 
-    <!--   项目仓库信息         -->
-    <scm>
-        <connection>scm:git:https://github.com/kiun2007/jtile38.git</connection>
-        <developerConnection>https://github.com/coder-amiao/rest-api-spring-boot-starter</developerConnection>
-        <url>https://github.com/coder-amiao/rest-api-spring-boot-starter.git</url>
-        <tag>v${project.version}</tag>
-    </scm>
-
-
-    <groupId>com.kiun</groupId>
+    <groupId>io.github.kiun2007</groupId>
     <artifactId>functionary</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>functionary</name>
     <description>functionary</description>
-    <properties>
-        <java.version>17</java.version>
-        <kotlin.version>1.6.10</kotlin.version>
-        <mybatis.auto.generate.version>1.0.15</mybatis.auto.generate.version>
-
-        <gpg.passphrase>157312541Kiun</gpg.passphrase>
-        <gpg.keyname>4F21542804EC7765</gpg.keyname>
-        <gpg.homedir>C:\Users\kiun_\.gnupg</gpg.homedir>
-    </properties>
 
     <modules>
         <module>mybatis-auto-generate-maven-plugin</module>

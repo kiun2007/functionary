@@ -1,10 +1,15 @@
 package com.kiun.functionary.context;
 
+import com.kiun.functionary.dao.sys.entity.SysUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,7 +42,18 @@ public class AppContext implements ApplicationContextAware {
     }
 
     public static HttpServletRequest getRequest() {
+
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    }
+
+    public static SysUser currentUser(){
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof SysUser){
+            return (SysUser) authentication.getPrincipal();
+        }
+        return null;
     }
 
     public static HttpSession getSession() {

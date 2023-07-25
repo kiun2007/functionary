@@ -30,7 +30,18 @@ class WebSecurityConfig {
     fun filterChain(httpSecurity: HttpSecurity) : SecurityFilterChain {
 
         httpSecurity.authorizeHttpRequests {
-            it.requestMatchers("/auth/login","/api/auth/login-form", "/api/system/user/list").permitAll()
+            it.requestMatchers(
+                    "/auth/login",
+                    "/api/auth/login-form",
+                    "/api/system/user/list",
+                    "/css/**",
+                    "/docs/**",
+                    "/fonts/**",
+                    "/img/**",
+                    "/ajax/**",
+                    "/js/**",
+                    "/ruoyi/**",
+                    "/druid/**").permitAll()
                     .anyRequest().authenticated().apply {  }
         }.formLogin {
             it.loginPage("/auth/login")
@@ -53,6 +64,7 @@ class WebSecurityConfig {
                     )
         }
 
+        httpSecurity.headers().frameOptions().disable()
         httpSecurity.csrf().disable()
         return httpSecurity.build()
     }
