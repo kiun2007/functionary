@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <parent>
         <artifactId>functionary</artifactId>
         <groupId>io.github.kiun2007</groupId>
@@ -89,6 +89,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-ecs</artifactId>
+            <version>4.24.59</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -98,42 +109,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
-<!--                <includes>-->
-<!--                    <include>**/*.ttc</include>-->
-<!--                    <include>**/*.ttf</include>-->
-<!--                    <include>**/*.woff</include>-->
-<!--                    <include>**/*.woff2</include>-->
-<!--                    <include>**/*.svg</include>-->
-<!--                    <include>**/*.eot</include>-->
-<!--                    <include>**/*.ico</include>-->
-<!--                </includes>-->
             </resource>
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--                <excludes>-->
-<!--                    <exclude>**/*.ttc</exclude>-->
-<!--                    <exclude>**/*.ttf</exclude>-->
-<!--                    <exclude>**/*.woff</exclude>-->
-<!--                    <exclude>**/*.woff2</exclude>-->
-<!--                    <exclude>**/*.svg</exclude>-->
-<!--                    <exclude>**/*.eot</exclude>-->
-<!--                    <exclude>**/*.ico</exclude>-->
-<!--                </excludes>-->
-<!--            </resource>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <filtering>false</filtering>-->
-<!--                <includes>-->
-<!--                    <include>**/*.ttc</include>-->
-<!--                    <include>**/*.ttf</include>-->
-<!--                    <include>**/*.woff</include>-->
-<!--                    <include>**/*.woff2</include>-->
-<!--                    <include>**/*.svg</include>-->
-<!--                    <include>**/*.eot</include>-->
-<!--                    <include>**/*.ico</include>-->
-<!--                </includes>-->
-<!--            </resource>-->
         </resources>
         <plugins>
             <plugin>
@@ -185,6 +161,12 @@
                             <path>${project.basedir}/generate/mybatis.xml</path>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>create-gks</id>
+                        <configuration>
+                            <path>${project.basedir}/generate/mybatis-gks.xml</path>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -209,7 +191,6 @@
             </plugin>
 
         </plugins>
-
     </build>
 
 </project>

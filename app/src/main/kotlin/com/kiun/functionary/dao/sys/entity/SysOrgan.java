@@ -1,27 +1,31 @@
 package com.kiun.functionary.dao.sys.entity;
 
-import com.kiun.functionary.base.general.ListBuild;
-import com.kiun.functionary.base.general.ListBuildItem;
+import com.kiun.functionary.base.general.*;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
 /**
- *  机构
- * 
+ *  机构单位
+ *
  * sys_organ
  *
- * 2023-07-23 22:37:00
+ * 2023-08-02 21:27:48
  */
-@ApiModel(description=" 机构")
-@ListBuild(value = "SysOrgan", title = " 机构")
+@ApiModel(description="机构单位")
+@ListBuild(value = "SysOrgan", title = "机构单位", operate = {
+        @Operate(title = "添加", url = "/general/add/@{formId}", icon = "fa-plus", toolbar = true),
+        @Operate(title = "编辑", url = "/general/edit/SysOrgan?organId={organId}"),
+        @Operate(title = "删除", url = "/general/delete", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
+})
 public class SysOrgan extends IdRandom {
+
     /**
      * 机构id
      */
     @ApiModelProperty("机构id")
-    @ListBuildItem(title = "机构id")
+    @ListBuildItem(title = "主键", flag = FormFlag.Non)
     private String organId;
 
     /**
@@ -32,87 +36,106 @@ public class SysOrgan extends IdRandom {
     private String organName;
 
     /**
-     * 级别
+     * 机构类型
      */
-    @ApiModelProperty("级别")
-    @ListBuildItem(title = "级别")
-    private Integer levelNo;
+    @ApiModelProperty("机构类型")
+    @ListBuildItem(title = "机构类型")
+    private String organType;
 
     /**
      * 父机构id
      */
     @ApiModelProperty("父机构id")
-    @ListBuildItem(title = "父机构id")
+    @ListBuildItem(title = "所属机构", flag = FormFlag.Table | FormFlag.Search)
     private String parentId;
 
     /**
      * 机构地址
      */
     @ApiModelProperty("机构地址")
-    @ListBuildItem(title = "机构地址")
+    @ListBuildItem(title = "机构地址", flag = FormFlag.Add)
     private String address;
-
-    /**
-     */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String cuntryName;
 
     /**
      * 邮编
      */
     @ApiModelProperty("邮编")
-    @ListBuildItem(title = "邮编")
+    @ListBuildItem(title = "邮编", flag = FormFlag.Add)
     private String postNo;
 
     /**
      * 手机号
      */
     @ApiModelProperty("手机号")
-    @ListBuildItem(title = "手机号")
+    @ListBuildItem(title = "手机号", flag = FormFlag.Add)
     private String phoneNo;
 
     /**
      * 传真
      */
     @ApiModelProperty("传真")
-    @ListBuildItem(title = "传真")
+    @ListBuildItem(title = "传真", flag = FormFlag.Add)
     private String faxNo;
 
     /**
-     * 创建人
+     * 区域编码
      */
-    @ApiModelProperty("创建人")
-    @ListBuildItem(title = "创建人")
-    private String createrId;
+    @ApiModelProperty("区域编码")
+    @ListBuildItem(title = "所属地区", type = FormType.Select, selectOpt = @Select(
+            label = "rangId",
+            formLabel = "itemVal",
+            formValue = "itemKey",
+            url = "/general/select-tree/VSysDictItemTree?dictId=gks_region&parentCode=parentId&code=id")
+    )
+    private String rangCd;
 
     /**
-     * 创建时间
+     * 区域标识
      */
-    @ApiModelProperty("创建时间")
-    @ListBuildItem(title = "创建时间")
-    private Date createDate;
+    @ApiModelProperty("区域标识")
+    private String rangId;
 
     /**
-     * 更新人
+     * 添加用户
      */
-    @ApiModelProperty("更新人")
-    @ListBuildItem(title = "更新人")
-    private String updateId;
+    @ApiModelProperty("添加用户")
+    private String addUserId;
 
     /**
-     * 更新时间
+     * 添加用户
      */
-    @ApiModelProperty("更新时间")
-    @ListBuildItem(title = "更新时间")
-    private Date updateDate;
+    @ApiModelProperty("添加用户")
+    private String addUserNm;
 
     /**
-     * 机构类型 1-总行 2-分行 3-网点
+     * 添加时间
      */
-    @ApiModelProperty("机构类型 1-总行 2-分行 3-网点")
-    @ListBuildItem(title = "机构类型 1-总行 2-分行 3-网点")
-    private String organType;
+    @ApiModelProperty("添加时间")
+    private Date addTime;
+
+    /**
+     * 修改用户
+     */
+    @ApiModelProperty("修改用户")
+    private String updUserId;
+
+    /**
+     * 修改用户
+     */
+    @ApiModelProperty("修改用户")
+    private String updUserNm;
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty("修改时间")
+    private Date updTime;
+
+    /**
+     * 终端IP
+     */
+    @ApiModelProperty("终端IP")
+    private String updTerminalIp;
 
     public String getOrganId() {
         return organId;
@@ -130,12 +153,12 @@ public class SysOrgan extends IdRandom {
         this.organName = organName == null ? null : organName.trim();
     }
 
-    public Integer getLevelNo() {
-        return levelNo;
+    public String getOrganType() {
+        return organType;
     }
 
-    public void setLevelNo(Integer levelNo) {
-        this.levelNo = levelNo;
+    public void setOrganType(String organType) {
+        this.organType = organType == null ? null : organType.trim();
     }
 
     public String getParentId() {
@@ -152,14 +175,6 @@ public class SysOrgan extends IdRandom {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
-    }
-
-    public String getCuntryName() {
-        return cuntryName;
-    }
-
-    public void setCuntryName(String cuntryName) {
-        this.cuntryName = cuntryName == null ? null : cuntryName.trim();
     }
 
     public String getPostNo() {
@@ -186,50 +201,82 @@ public class SysOrgan extends IdRandom {
         this.faxNo = faxNo == null ? null : faxNo.trim();
     }
 
-    public String getCreaterId() {
-        return createrId;
+    public String getRangCd() {
+        return rangCd;
     }
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
+    public void setRangCd(String rangCd) {
+        this.rangCd = rangCd == null ? null : rangCd.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getRangId() {
+        return rangId;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setRangId(String rangId) {
+        this.rangId = rangId == null ? null : rangId.trim();
     }
 
-    public String getUpdateId() {
-        return updateId;
+    public String getAddUserId() {
+        return addUserId;
     }
 
-    public void setUpdateId(String updateId) {
-        this.updateId = updateId == null ? null : updateId.trim();
+    public void setAddUserId(String addUserId) {
+        this.addUserId = addUserId == null ? null : addUserId.trim();
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public String getAddUserNm() {
+        return addUserNm;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setAddUserNm(String addUserNm) {
+        this.addUserNm = addUserNm == null ? null : addUserNm.trim();
     }
 
-    public String getOrganType() {
-        return organType;
+    public Date getAddTime() {
+        return addTime;
     }
 
-    public void setOrganType(String organType) {
-        this.organType = organType == null ? null : organType.trim();
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public String getUpdUserId() {
+        return updUserId;
+    }
+
+    public void setUpdUserId(String updUserId) {
+        this.updUserId = updUserId == null ? null : updUserId.trim();
+    }
+
+    public String getUpdUserNm() {
+        return updUserNm;
+    }
+
+    public void setUpdUserNm(String updUserNm) {
+        this.updUserNm = updUserNm == null ? null : updUserNm.trim();
+    }
+
+    public Date getUpdTime() {
+        return updTime;
+    }
+
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
+    }
+
+    public String getUpdTerminalIp() {
+        return updTerminalIp;
+    }
+
+    public void setUpdTerminalIp(String updTerminalIp) {
+        this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
     }
 
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_organ
-     * 2023-07-23 22:37:00
+     * 2023-08-02 21:27:48
      */
     public void setId(String id) {
         this.organId=id;
@@ -238,7 +285,7 @@ public class SysOrgan extends IdRandom {
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_organ
-     * 2023-07-23 22:37:00
+     * 2023-08-02 21:27:48
      */
     public String getId() {
         return organId;

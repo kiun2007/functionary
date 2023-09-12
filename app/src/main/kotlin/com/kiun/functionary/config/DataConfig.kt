@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.GsonFactoryBean
 
 @Configuration
-class DataConfig {
+open class DataConfig {
 
     @Bean
-    fun gson(): Gson {
+    open fun gson(): Gson {
         return GsonFactoryBean().`object`?: Gson()
     }
 }

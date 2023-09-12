@@ -18,15 +18,33 @@
         <!--/*@thymesVar id="data" type="java.util.Map"*/-->
         <form class="form-horizontal m" method="post" id="form-add">
             <!--/*@thymesVar id="items" type="java.util.List<com.kiun.functionary.base.general.ListBuildItemData>"*/-->
-            <div class="form-group" th:each="item:${items}">
+            <div class="form-group" th:each="item:${items}" th:if="${item.getEditWith()}">
                 <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.ListBuildItemData"*/-->
                 <label th:if="${item.getEditWith()&&item.getType()!='Hidden'}" class="col-sm-3 control-label" th:text="${item.getTitle()+':'}"></label>
+                <input type="hidden" th:value="${data.get(item.getValue())}" th:name="${item.getValue() + '__old'}">
                 <div th:if="${item.getEditWith()}" class="col-sm-8" th:switch="${item.getType()}">
                     <input
                             th:case="Hidden"
                             type="hidden"
                             th:value="${data.get(item.getValue())}"
                             th:name="${item.getValue()}">
+                    <div th:case="Select" class="input-group">
+                        <input
+                                type="hidden"
+                                th:id="${item.getValue()}"
+                                th:name="${item.getValue()}"
+                                th:value="${data.get(item.getValue())}" >
+                        <input
+                                class="form-control"
+                                type="text"
+                                onclick="selectValue(this)"
+                                th:id="${item.getSelectOpt().getLabel()}"
+                                readonly="true"
+                                th:data="${item.jsonString()}"
+                                th:name="${item.getSelectOpt().getLabel()}"
+                                th:value="${data.get(item.getSelectOpt().getLabel())}">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
                     <input
                             th:case="Text"
                             th:id="${item.getValue()}"
@@ -101,10 +119,10 @@
     <script type="text/javascript" th:src="@{/js/ace/ext-language_tools.js}"></script>
     <script type="text/javascript" th:src="@{/js/editor.js}"></script>
     <script th:inline="javascript">
-        var message = [[${buildData.queueHeader}]]
+        var buildData = [[${buildData}]]
         var items = [[${items}]]
         var data = [[${data}]]
-        var prefix = ctx + "generalList/" + message;
+        var prefix = ctx + "generalList/" + buildData.value;
         $("#form-add").validate({
             rules:{
                 xxxx:{
@@ -136,7 +154,7 @@
             if ($.validate.form()) {
                 var postData = {...window.editorMap,...$('#form-add').toJson()}
                 console.log(postData)
-                $.operate.saveJson(prefix + "/save", postData);
+                $.operate.saveJson(prefix + "/edit", postData);
             }
         }
 

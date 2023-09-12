@@ -225,7 +225,7 @@ public class SysMenuService
      */
     public int insertMenu(SysMenu menu)
     {
-        return sysMenuMapper.insertSelective(menu);
+        return sysMenuMapper.insertOne(menu);
     }
 
     /**

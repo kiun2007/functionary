@@ -11,10 +11,12 @@ import com.kiun.functionary.service.GeneralService
 import com.kiun.functionary.service.utils.StringUtil
 import com.kiun.functionary.service.utils.mapOfLine
 import com.kiun.functionary.service.utils.toJson
+import org.apache.ibatis.annotations.Param
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.BeanDefinition
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
 import org.springframework.context.annotation.ScannedGenericBeanDefinition
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.core.type.filter.AnnotationTypeFilter
 import org.springframework.stereotype.Service
 import java.lang.reflect.Type
@@ -35,8 +37,13 @@ class HttpGeneralService : GeneralService {
     var gson: Gson? = null
 
     fun <T> getMapper(tableName: String): BaseExampleMapper<BaseExample, T>{
+        try {
+            return AppContext.getApplicationContext()
+                    .getBean("${StringUtil.firstToLower(tableName)}Mapper", BaseExampleMapper::class.java) as BaseExampleMapper<BaseExample, T>
+        }catch (ex: Exception){
+        }
         return AppContext.getApplicationContext()
-                .getBean("${StringUtil.firstToLower(tableName)}Mapper", BaseExampleMapper::class.java) as BaseExampleMapper<BaseExample, T>
+                .getBean("${tableName}Mapper", BaseExampleMapper::class.java) as BaseExampleMapper<BaseExample, T>
     }
 
     private fun fileTypeConvert(type: Type): String{
@@ -45,9 +52,13 @@ class HttpGeneralService : GeneralService {
         if(type == String::class.java){
             formType = FormType.Text
         }else if (type == Int::class.java ||
+                type == Integer::class.java ||
                 type == Long::class.java ||
+                type == java.lang.Long::class.java ||
                 type == Double::class.java ||
+                type == java.lang.Double::class.java ||
                 type == Float::class.java ||
+                type == java.lang.Float::class.java ||
                 type == BigDecimal::class.java){
             formType = FormType.Number
         }else if (type == Date::class.java){
@@ -65,7 +76,11 @@ class HttpGeneralService : GeneralService {
         val queryType = AppContext.getRequest().getHeader("QueryType") ?: GeneralListQuery.QueryType.Eq.toString()
 
         if (type != null){
-            example.fillEntity<BaseExample>(gson?.fromJson(request.toJson(), type), queryType)
+            val query = gson?.fromJson(request.toJson(), type)
+            if (query is IdRandom && query.isNew){
+                query.setId(null);
+            }
+            example.fillEntity<BaseExample>(query, queryType)
         }else{
             example.fill<BaseExample>(request, queryType)
         }
@@ -90,12 +105,53 @@ class HttpGeneralService : GeneralService {
         val mapper = getMapper<Any>(tableName)
         val example = BaseExample.getExample(tableName)
         val entry = gson?.fromJson(body, example.entryClass)
+        if (entry is IdRandom){
+            entry.fillId()
+        }
         return mapper.insertOne(entry) > 0
+    }
+
+    override fun update(tableName: String, body: String): Boolean {
+        val mapper = getMapper<Any>(tableName)
+        val example = BaseExample.getExample(tableName)
+        val entry = gson?.fromJson(body, example.entryClass)
+
+        val methods = mapper.javaClass.interfaces.map { iit-> iit.methods.find { it.name == "selectByPrimaryKey" } }.first()
+
+        val query = gson?.fromJson(body, object : ParameterizedTypeReference<Map<String, Any>>(){}.type) as Map<String, Any>
+        val newMap = HashMap<String, Any>()
+        query.filter { it.key.endsWith("__old") }.forEach{
+            key, value->
+            val oldKey = key.replace("__old", "")
+            if (methods?.parameters?.any { it.name == oldKey } == true){
+                newMap[oldKey] = value
+            }
+        }
+
+        val queryType = AppContext.getRequest().getHeader("QueryType") ?: GeneralListQuery.QueryType.Eq.toString()
+        example.fill<BaseExample>(newMap, queryType)
+        return mapper.updateByExampleSelective(entry, example) > 0
     }
 
     override fun getBuildByName(name: String): ListBuildData? {
         return definition
-                ?.map { Gson().fromJson((it as ScannedGenericBeanDefinition).metadata.annotations.get(ListBuild::class.java).asMap().toJson(), ListBuildData::class.java) }
+                ?.map {
+                    val listBuild = Class.forName((it as ScannedGenericBeanDefinition).metadata.className).getAnnotation(ListBuild::class.java)
+                    return@map ListBuildData(
+                            value = listBuild.value,
+                            title = listBuild.title,
+                            operate = listBuild.operate.map {
+                                OperateData(
+                                        title = it.title,
+                                        url = it.url.replace("@{formId}", name),
+                                        icon = it.icon,
+                                        function = it.function,
+                                        color = it.color,
+                                        toolbar = it.toolbar
+                                )
+                            }.toTypedArray()
+                    )
+                }
                 ?.find { it.value == name }
     }
 
@@ -109,10 +165,14 @@ class HttpGeneralService : GeneralService {
                         value = if (anno.value == "") it.name else anno.value,
                         title = anno.title,
                         type = if (anno.type == FormType.Auto) fileTypeConvert(it.type) else anno.type.toString(),
-                        tableWith = anno.tableWith,
                         enums = anno.enums.mapOfLine(),
-                        addWith = anno.addWith,
-                        editWith = anno.editWith
+                        flag = anno.flag,
+                        selectOpt = SelectData(
+                                label = anno.selectOpt.label,
+                                formLabel = anno.selectOpt.formLabel,
+                                formValue = anno.selectOpt.formValue,
+                                url = anno.selectOpt.url,
+                        )
                 )
             }
             return list
@@ -120,10 +180,37 @@ class HttpGeneralService : GeneralService {
         return null
     }
 
-    override fun <T> getById(tableName: String, id: String): T {
+    /**
+     * 根据条件删除
+     */
+    override fun delete(tableName: String, query: Map<String, Any>): Boolean {
+
+        val mapper = getMapper<Any>(tableName)
+        val example = BaseExample.getExample(tableName)
+        val type = example.entryClass
+        val queryType = AppContext.getRequest().getHeader("QueryType") ?: GeneralListQuery.QueryType.Eq.toString()
+
+        if (type != null){
+            val query = gson?.fromJson(query.toJson(), type)
+            if (query is IdRandom && query.isNew){
+                query.setId(null);
+            }
+            example.fillEntity<BaseExample>(query, queryType)
+            return mapper.deleteByExample(example) > 0
+        }
+        return false
+    }
+
+    override fun <T> getById(tableName: String, query: MutableMap<String, Any>): T {
 
         val mapper = getMapper<T>(tableName)
-        val selectByPrimaryKey = mapper.javaClass.getMethod("selectByPrimaryKey", String::class.java)
-        return selectByPrimaryKey.invoke(mapper, id) as T
+        val selectByPrimaryKey = mapper.javaClass.interfaces.map { iit-> iit.methods.find { it.name == "selectByPrimaryKey" } }.first()
+
+        if(selectByPrimaryKey?.parameters?.size == 1){
+            return selectByPrimaryKey?.invoke(mapper, query.values.first()) as T
+        }
+
+        val param = selectByPrimaryKey?.parameters?.map { query[it.getAnnotation(Param::class.java).value] as Any }?.toTypedArray()
+        return selectByPrimaryKey?.invoke(mapper, *param!!) as T
     }
 }

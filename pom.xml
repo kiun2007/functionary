@@ -12,6 +12,12 @@
     </parent>
     <url>https://github.com/kiun2007/functionary</url>
 
+    <groupId>io.github.kiun2007</groupId>
+    <artifactId>functionary</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>functionary</name>
+    <description>functionary</description>
+
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.6.10</kotlin.version>
@@ -35,15 +41,9 @@
         </developer>
     </developers>
 
-    <groupId>io.github.kiun2007</groupId>
-    <artifactId>functionary</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>functionary</name>
-    <description>functionary</description>
-
     <modules>
-        <module>mybatis-auto-generate-maven-plugin</module>
         <module>app</module>
+        <module>mybatis-auto-generate-maven-plugin</module>
     </modules>
 
     <build>

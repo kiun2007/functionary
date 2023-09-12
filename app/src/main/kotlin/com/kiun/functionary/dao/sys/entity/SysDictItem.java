@@ -1,5 +1,7 @@
 package com.kiun.functionary.dao.sys.entity;
 
+import com.kiun.functionary.base.general.FormFlag;
+import com.kiun.functionary.base.general.FormType;
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
@@ -12,7 +14,7 @@ import java.util.Date;
  *
  * sys_dict_item
  *
- * 2023-07-25 23:15:07
+ * 2023-07-26 21:14:35
  */
 @ApiModel(description="字典项详情")
 @ListBuild(value = "SysDictItem", title = "字典项详情")
@@ -21,8 +23,21 @@ public class SysDictItem extends IdRandom {
      * 字典ID
      */
     @ApiModelProperty("字典ID")
-    @ListBuildItem(title = "字典ID")
+    @ListBuildItem(title = "字典", flag = FormFlag.AddDisable|FormFlag.Add|FormFlag.Edit|FormFlag.EditDisable, type = FormType.Hidden)
     private String dictId;
+
+    /**
+     * 字典名称
+     */
+    @ApiModelProperty("字典名称")
+    private String dictName;
+
+    /**
+     * 父项
+     */
+    @ApiModelProperty("父项")
+    @ListBuildItem(title = "父项", flag = FormFlag.Update | FormFlag.AddDisable | FormFlag.EditDisable, type = FormType.Hidden)
+    private String parentId;
 
     /**
      * 字典键
@@ -35,22 +50,8 @@ public class SysDictItem extends IdRandom {
      * 主键
      */
     @ApiModelProperty("主键")
-    @ListBuildItem(title = "主键")
+    @ListBuildItem(title = "主键", flag = FormFlag.Non)
     private String id;
-
-    /**
-     * 字典名称
-     */
-    @ApiModelProperty("字典名称")
-    @ListBuildItem(title = "字典名称")
-    private String dictName;
-
-    /**
-     * 父项
-     */
-    @ApiModelProperty("父项")
-    @ListBuildItem(title = "父项")
-    private String parentId;
 
     /**
      * 字典值
@@ -76,14 +77,14 @@ public class SysDictItem extends IdRandom {
      * 添加用户
      */
     @ApiModelProperty("添加用户")
-    @ListBuildItem(title = "添加用户")
-    private String addUserMn;
+    @ListBuildItem(title = "添加用户", flag = FormFlag.Table)
+    private String addUserNm;
 
     /**
      * 添加时间
      */
     @ApiModelProperty("添加时间")
-    @ListBuildItem(title = "添加时间")
+    @ListBuildItem(title = "添加时间", flag = FormFlag.Table)
     private Date addTime;
 
     /**
@@ -96,20 +97,21 @@ public class SysDictItem extends IdRandom {
      * 修改用户
      */
     @ApiModelProperty("修改用户")
-    @ListBuildItem(title = "修改用户")
-    private String updUserMn;
+    @ListBuildItem(title = "修改用户", flag = FormFlag.Table)
+    private String updUserNm;
 
     /**
      * 修改时间
      */
     @ApiModelProperty("修改时间")
-    @ListBuildItem(title = "修改时间")
+    @ListBuildItem(title = "修改时间", flag = FormFlag.Table)
     private Date updTime;
 
     /**
      * 终端IP
      */
     @ApiModelProperty("终端IP")
+    @ListBuildItem(title = "终端IP", flag = FormFlag.Table)
     private String updTerminalIp;
 
     public String getDictId() {
@@ -176,12 +178,12 @@ public class SysDictItem extends IdRandom {
         this.addUserId = addUserId == null ? null : addUserId.trim();
     }
 
-    public String getAddUserMn() {
-        return addUserMn;
+    public String getAddUserNm() {
+        return addUserNm;
     }
 
-    public void setAddUserMn(String addUserMn) {
-        this.addUserMn = addUserMn == null ? null : addUserMn.trim();
+    public void setAddUserNm(String addUserNm) {
+        this.addUserNm = addUserNm == null ? null : addUserNm.trim();
     }
 
     public Date getAddTime() {
@@ -200,12 +202,12 @@ public class SysDictItem extends IdRandom {
         this.updUserId = updUserId == null ? null : updUserId.trim();
     }
 
-    public String getUpdUserMn() {
-        return updUserMn;
+    public String getUpdUserNm() {
+        return updUserNm;
     }
 
-    public void setUpdUserMn(String updUserMn) {
-        this.updUserMn = updUserMn == null ? null : updUserMn.trim();
+    public void setUpdUserNm(String updUserNm) {
+        this.updUserNm = updUserNm == null ? null : updUserNm.trim();
     }
 
     public Date getUpdTime() {

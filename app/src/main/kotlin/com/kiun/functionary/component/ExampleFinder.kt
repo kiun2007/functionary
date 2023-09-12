@@ -11,7 +11,7 @@ class ExampleFinder {
     val exampleMap: MutableMap<String, Class<out BaseExample>> = HashMap()
 
     init {
-        val list = AnnotationUtil.getChildClass(BaseExample::class.java, null)
+        val list = AnnotationUtil.getChildClass(BaseExample::class.java, listOf("com.kiun.**"))
         list.remove(BaseExample::class.java)
 
         list.forEach{
@@ -28,9 +28,5 @@ class ExampleFinder {
             return clz.getDeclaredConstructor().newInstance()
         }
         throw RuntimeException("未查询到对应数据集")
-    }
-
-    companion object {
-
     }
 }

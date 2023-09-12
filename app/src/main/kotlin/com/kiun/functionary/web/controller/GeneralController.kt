@@ -37,4 +37,20 @@ class GeneralController {
     fun insert(@PathVariable("tableName") tableName: String, @RequestBody req: String) : DataWrap<Boolean> {
         return DataWrap.success(generalService?.insert(tableName, req))
     }
+
+    @GetMapping("{tableName}/getByKey")
+    fun getByKey(@PathVariable("tableName") tableName: String, @RequestParam req: MutableMap<String, Any>) : DataWrap<Any>{
+        return DataWrap.success(generalService?.getById<Any>(tableName, req))
+    }
+
+    @GetMapping("{tableName}/getOne")
+    fun getOne(@PathVariable("tableName") tableName: String, @RequestParam req: MutableMap<String, Any>) : DataWrap<Any>{
+        return DataWrap.success(generalService?.selectList<Any>(tableName, req)?.firstOrNull())
+    }
+
+
+    @PostMapping("{tableName}/remove")
+    fun remove(@PathVariable("tableName") tableName: String, @RequestParam req: MutableMap<String, Any>) : DataWrap<Boolean> {
+        return DataWrap.success(generalService?.delete(tableName, req))
+    }
 }

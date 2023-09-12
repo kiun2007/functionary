@@ -2,9 +2,11 @@ package com.kiun.functionary.dao;
 
 import com.kiun.functionary.base.BaseCriteria;
 import com.kiun.functionary.base.anno.UseQuery;
+import com.kiun.functionary.base.general.UserId;
 import com.kiun.functionary.base.query.QueryFunction;
 import com.kiun.functionary.component.ExampleFinder;
 import com.kiun.functionary.context.AppContext;
+import com.kiun.functionary.dao.sys.entity.SysUser;
 import com.kiun.functionary.service.utils.StringUtil;
 
 import java.lang.reflect.Field;
@@ -122,8 +124,14 @@ public class BaseExample {
                 isDelete = queryFunction.isDelete();
             }
 
+            UserId userId = field.getAnnotation(UserId.class);
+            if (value == null && userId != null){
+                SysUser user = AppContext.currentUser();
+                value = user == null ? null : user.getId();
+            }
+
             if (!isDelete){
-                criteria.addCriterion(StringUtil.camelToUnderline(field.getName()).toLowerCase(Locale.ROOT) + " =", value, field.getName());
+                criteria.addCriterion(StringUtil.camelToUnderline(field.getName()).toLowerCase(Locale.ROOT) + " = ", value, field.getName());
             }
         }
         return (E) this;

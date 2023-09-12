@@ -1,86 +1,100 @@
 package com.kiun.functionary.dao.sys.entity;
 
-import com.kiun.functionary.base.general.ListBuild;
-import com.kiun.functionary.base.general.ListBuildItem;
+import com.kiun.functionary.base.general.*;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Date;
 
 /**
- * 角色表
- * 
+ * 角色管理
+ *
  * sys_role
  *
- * 2023-07-23 22:37:00
+ * 2023-08-02 22:48:51
  */
-@ApiModel(description="角色表")
-@ListBuild(value = "SysRole", title = "角色表")
+@ApiModel(description="角色管理")
+@ListBuild(value = "SysRole", title = "角色管理", operate = {
+        @Operate(title = "添加", url = "/general/add/SysRole", icon = "fa-plus", toolbar = true),
+        @Operate(title = "编辑", url = "/general/edit/SysRole/{id}"),
+        @Operate(title = "管理菜单", url = "/general/tree/VRoleMenuTree?roleId={id}&parentCode=parentId&code=menuId"),
+        @Operate(title = "删除", url = "/{formId}/removeQuery", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
+})
 public class SysRole extends IdRandom {
     /**
+     * 主键
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
+    @ApiModelProperty("主键")
+    @ListBuildItem(title = "主键", flag = FormFlag.Edit | FormFlag.EditDisable)
     private String roleId;
 
     /**
+     * 角色名称
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
+    @ApiModelProperty("角色名称")
+    @ListBuildItem(title = "角色名称")
     private String roleName;
 
     /**
+     * 角色类型
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
+    @ApiModelProperty("角色类型")
+    @ListBuildItem(title = "角色类型")
     private String roleType;
 
     /**
+     * 备注
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
+    @ApiModelProperty("备注")
+    @ListBuildItem(title = "备注")
     private String remark;
 
     /**
+     * 添加用户
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String createrId;
+    @ApiModelProperty("添加用户")
+    private String addUserId;
 
     /**
+     * 添加用户
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String createDate;
+    @ApiModelProperty("添加用户")
+    @ListBuildItem(title = "添加用户", flag = FormFlag.Table)
+    private String addUserNm;
 
     /**
+     * 添加时间
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String createTime;
+    @ApiModelProperty("添加时间")
+    @ListBuildItem(title = "添加时间", flag = FormFlag.Table)
+    private Date addTime;
 
     /**
+     * 修改用户
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String updateId;
+    @ApiModelProperty("修改用户")
+    private String updUserId;
 
     /**
+     * 修改用户
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String updateDate;
+    @ApiModelProperty("修改用户")
+    @ListBuildItem(title = "修改用户", flag = FormFlag.Table)
+    private String updUserNm;
 
     /**
+     * 修改时间
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String updateTime;
+    @ApiModelProperty("修改时间")
+    @ListBuildItem(title = "修改时间", flag = FormFlag.Table)
+    private Date updTime;
 
     /**
+     * 终端IP
      */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String status;
+    @ApiModelProperty("终端IP")
+    @ListBuildItem(title = "终端IP", flag = FormFlag.Table)
+    private String updTerminalIp;
 
     public String getRoleId() {
         return roleId;
@@ -114,66 +128,66 @@ public class SysRole extends IdRandom {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getCreaterId() {
-        return createrId;
+    public String getAddUserId() {
+        return addUserId;
     }
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
+    public void setAddUserId(String addUserId) {
+        this.addUserId = addUserId == null ? null : addUserId.trim();
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public String getAddUserNm() {
+        return addUserNm;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate == null ? null : createDate.trim();
+    public void setAddUserNm(String addUserNm) {
+        this.addUserNm = addUserNm == null ? null : addUserNm.trim();
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public Date getAddTime() {
+        return addTime;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime == null ? null : createTime.trim();
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
-    public String getUpdateId() {
-        return updateId;
+    public String getUpdUserId() {
+        return updUserId;
     }
 
-    public void setUpdateId(String updateId) {
-        this.updateId = updateId == null ? null : updateId.trim();
+    public void setUpdUserId(String updUserId) {
+        this.updUserId = updUserId == null ? null : updUserId.trim();
     }
 
-    public String getUpdateDate() {
-        return updateDate;
+    public String getUpdUserNm() {
+        return updUserNm;
     }
 
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate == null ? null : updateDate.trim();
+    public void setUpdUserNm(String updUserNm) {
+        this.updUserNm = updUserNm == null ? null : updUserNm.trim();
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public Date getUpdTime() {
+        return updTime;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime == null ? null : updateTime.trim();
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
     }
 
-    public String getStatus() {
-        return status;
+    public String getUpdTerminalIp() {
+        return updTerminalIp;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setUpdTerminalIp(String updTerminalIp) {
+        this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
     }
 
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_role
-     * 2023-07-23 22:37:00
+     * 2023-08-02 22:48:51
      */
     public void setId(String id) {
         this.roleId=id;
@@ -182,7 +196,7 @@ public class SysRole extends IdRandom {
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_role
-     * 2023-07-23 22:37:00
+     * 2023-08-02 22:48:51
      */
     public String getId() {
         return roleId;

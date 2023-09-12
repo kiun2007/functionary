@@ -16,9 +16,9 @@
         options = $.extend({}, $.fn.bootstrapTreeTable.defaults, options || {});
         target.hasSelectItem = false;// 是否有radio或checkbox
         target.data_list = null; //用于缓存格式化后的数据-按父分组
-        target.data_obj = null; //用于缓存格式化后的数据-按id存对象
+        target.data_obj = {}; //用于缓存格式化后的数据-按id存对象
         target.hiddenColumns = []; //用于存放被隐藏列的field
-        target.lastAjaxParams; //用户最后一次请求的参数
+        target.lastAjaxParams = param; //用户最后一次请求的参数
         target.isFixWidth=false; //是否有固定宽度
         // 初始化
         var init = function() {
@@ -31,7 +31,7 @@
             // 初始化表体
             initBody();
             // 初始化数据服务
-            initServer();
+            initServer(param);
             // 动态设置表头宽度
             autoTheadWidth(true);
             // 缓存target对象
@@ -211,7 +211,7 @@
                 var $thead = target.find("thead");
                 var $tbody = target.find("tbody");
                 var borderWidth = parseInt(target.css("border-left-width")) + parseInt(target.css("border-right-width"))
-                
+
                 $thead.css("width", $tbody.children(":first").width());
                 if(initFlag){
                     var resizeWaiter = false;
@@ -229,11 +229,12 @@
                     });
                 }
             }
-        
+
         }
         // 缓存并格式化数据
         var formatData = function(data) {
             var _root = options.rootIdValue ? options.rootIdValue : null
+
             $.each(data, function(index, item) {
                 // 添加一个默认属性，用来判断当前节点有没有被显示
                 item.isShow = false;
@@ -595,6 +596,7 @@
             // 所有被选中的记录input
             var _ipt = target.find("tbody").find("tr").find("input[name='select_item']:checked");
             var chk_value = [];
+
             // 如果是radio
             if (_ipt.attr("type") == "radio") {
                 var _data = target.data_obj["id_" + _ipt.val()];

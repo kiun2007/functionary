@@ -13,9 +13,16 @@ interface GeneralService {
 
     fun insert(tableName: String, body: String): Boolean
 
+    fun update(tableName: String, body: String): Boolean
+
     fun getBuildByName(name: String) : ListBuildData?
 
     fun listBuildItem(name: String): List<ListBuildItemData>?
 
-    fun <T> getById(tableName: String, id: String) : T
+    /**
+     * 根据条件删除
+     */
+    fun delete(tableName: String, query: Map<String, Any>): Boolean
+
+    fun <T> getById(tableName: String, query: MutableMap<String, Any>) : T
 }

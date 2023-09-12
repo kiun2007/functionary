@@ -18,5 +18,15 @@ class FunctionaryApplication
 
 fun main(args: Array<String>) {
 
+    val sb = StringBuffer("[")
+    for (i in 1 until 5000){
+        if (i == 1){
+            sb.append("${i}")
+        }else{
+            sb.append(",${i}")
+        }
+    }
+    sb.append("]")
+    var s = sb.toString()
     runApplication<FunctionaryApplication>(*args)
 }

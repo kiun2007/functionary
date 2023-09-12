@@ -2,27 +2,31 @@ package com.kiun.functionary.dao.sys.entity;
 
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
+import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 后台用户表
  *
  * sys_user
  *
- * 2023-07-23 22:37:00
+ * 2023-09-05 22:13:52
  */
 @ApiModel(description="后台用户表")
 @ListBuild(value = "SysUser", title = "后台用户表")
-public class SysUser implements UserDetails {
+public class SysUser extends IdRandom implements UserDetails {
     /**
      * 用户id
      */
     @ApiModelProperty("用户id")
+    @ListBuildItem(title = "用户id")
     private String userId;
 
     /**
@@ -36,12 +40,14 @@ public class SysUser implements UserDetails {
      * 登录密码
      */
     @ApiModelProperty("登录密码")
+    @ListBuildItem(title = "登录密码")
     private String loginPwd;
 
     /**
      * 密码盐
      */
     @ApiModelProperty("密码盐")
+    @ListBuildItem(title = "密码盐")
     private String salt;
 
     /**
@@ -52,40 +58,25 @@ public class SysUser implements UserDetails {
     private String userName;
 
     /**
-     */
-    @ApiModelProperty("")
-    @ListBuildItem(title = "")
-    private String modifyLoginPwd;
-
-    /**
      * 密码错误次数
      */
     @ApiModelProperty("密码错误次数")
+    @ListBuildItem(title = "密码错误次数")
     private Integer failedLoginNum;
 
     /**
      * 最多尝试次数
      */
     @ApiModelProperty("最多尝试次数")
+    @ListBuildItem(title = "最多尝试次数")
     private Integer maxLoginNum;
 
     /**
      * 密码过期日
      */
     @ApiModelProperty("密码过期日")
+    @ListBuildItem(title = "密码过期日")
     private Integer pwdExpiryDay;
-
-    /**
-     * 上次密码修改日期
-     */
-    @ApiModelProperty("上次密码修改日期")
-    private String lastPwdUpdateDate;
-
-    /**
-     * 上次密码修改时间
-     */
-    @ApiModelProperty("上次密码修改时间")
-    private String lastPwdUpdateTime;
 
     /**
      * 用户类型
@@ -100,12 +91,6 @@ public class SysUser implements UserDetails {
     @ApiModelProperty("用户状态")
     @ListBuildItem(title = "用户状态")
     private String status;
-
-    /**
-     * 重复登录标识
-     */
-    @ApiModelProperty("重复登录标识")
-    private String repeatLoginFlag;
 
     /**
      * 电子邮箱
@@ -150,53 +135,53 @@ public class SysUser implements UserDetails {
     private String remark;
 
     /**
-     * 创建人
+     * 添加用户
      */
-    @ApiModelProperty("创建人")
-    @ListBuildItem(title = "创建人")
-    private String createrId;
+    @ApiModelProperty("添加用户")
+    @ListBuildItem(title = "添加用户")
+    private String addUserId;
 
     /**
-     * 创建日期
+     * 添加用户名称
      */
-    @ApiModelProperty("创建日期")
-    @ListBuildItem(title = "创建日期")
-    private String createDate;
+    @ApiModelProperty("添加用户名称")
+    @ListBuildItem(title = "添加用户名称")
+    private String addUserNm;
 
     /**
-     * 更新人
+     * 添加时间
      */
-    @ApiModelProperty("更新人")
-    @ListBuildItem(title = "更新人")
-    private String updateId;
+    @ApiModelProperty("添加时间")
+    @ListBuildItem(title = "添加时间")
+    private Date addTime;
 
     /**
-     * 更新时间
+     * 修改用户
      */
-    @ApiModelProperty("更新时间")
-    @ListBuildItem(title = "更新时间")
-    private String updateDate;
+    @ApiModelProperty("修改用户")
+    @ListBuildItem(title = "修改用户")
+    private String updUserId;
 
     /**
-     * 机构
+     * 修改用户名称
      */
-    @ApiModelProperty("机构")
-    @ListBuildItem(title = "机构")
-    private String ownerOrgan;
+    @ApiModelProperty("修改用户名称")
+    @ListBuildItem(title = "修改用户名称")
+    private String updUserNm;
 
     /**
-     * 创建时间
+     * 修改时间
      */
-    @ApiModelProperty("创建时间")
-    @ListBuildItem(title = "创建时间")
-    private String createTime;
+    @ApiModelProperty("修改时间")
+    @ListBuildItem(title = "修改时间")
+    private Date updTime;
 
     /**
-     * 更新时间
+     * 修改数据人员IP
      */
-    @ApiModelProperty("更新时间")
-    @ListBuildItem(title = "更新时间")
-    private String updateTime;
+    @ApiModelProperty("修改数据人员IP")
+    @ListBuildItem(title = "修改数据人员IP")
+    private String updTerminalIp;
 
     public String getUserId() {
         return userId;
@@ -238,14 +223,6 @@ public class SysUser implements UserDetails {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getModifyLoginPwd() {
-        return modifyLoginPwd;
-    }
-
-    public void setModifyLoginPwd(String modifyLoginPwd) {
-        this.modifyLoginPwd = modifyLoginPwd == null ? null : modifyLoginPwd.trim();
-    }
-
     public Integer getFailedLoginNum() {
         return failedLoginNum;
     }
@@ -270,22 +247,6 @@ public class SysUser implements UserDetails {
         this.pwdExpiryDay = pwdExpiryDay;
     }
 
-    public String getLastPwdUpdateDate() {
-        return lastPwdUpdateDate;
-    }
-
-    public void setLastPwdUpdateDate(String lastPwdUpdateDate) {
-        this.lastPwdUpdateDate = lastPwdUpdateDate == null ? null : lastPwdUpdateDate.trim();
-    }
-
-    public String getLastPwdUpdateTime() {
-        return lastPwdUpdateTime;
-    }
-
-    public void setLastPwdUpdateTime(String lastPwdUpdateTime) {
-        this.lastPwdUpdateTime = lastPwdUpdateTime == null ? null : lastPwdUpdateTime.trim();
-    }
-
     public String getUserType() {
         return userType;
     }
@@ -300,14 +261,6 @@ public class SysUser implements UserDetails {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
-    }
-
-    public String getRepeatLoginFlag() {
-        return repeatLoginFlag;
-    }
-
-    public void setRepeatLoginFlag(String repeatLoginFlag) {
-        this.repeatLoginFlag = repeatLoginFlag == null ? null : repeatLoginFlag.trim();
     }
 
     public String getEmail() {
@@ -358,66 +311,66 @@ public class SysUser implements UserDetails {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getCreaterId() {
-        return createrId;
+    public String getAddUserId() {
+        return addUserId;
     }
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
+    public void setAddUserId(String addUserId) {
+        this.addUserId = addUserId == null ? null : addUserId.trim();
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public String getAddUserNm() {
+        return addUserNm;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate == null ? null : createDate.trim();
+    public void setAddUserNm(String addUserNm) {
+        this.addUserNm = addUserNm == null ? null : addUserNm.trim();
     }
 
-    public String getUpdateId() {
-        return updateId;
+    public Date getAddTime() {
+        return addTime;
     }
 
-    public void setUpdateId(String updateId) {
-        this.updateId = updateId == null ? null : updateId.trim();
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
-    public String getUpdateDate() {
-        return updateDate;
+    public String getUpdUserId() {
+        return updUserId;
     }
 
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate == null ? null : updateDate.trim();
+    public void setUpdUserId(String updUserId) {
+        this.updUserId = updUserId == null ? null : updUserId.trim();
     }
 
-    public String getOwnerOrgan() {
-        return ownerOrgan;
+    public String getUpdUserNm() {
+        return updUserNm;
     }
 
-    public void setOwnerOrgan(String ownerOrgan) {
-        this.ownerOrgan = ownerOrgan == null ? null : ownerOrgan.trim();
+    public void setUpdUserNm(String updUserNm) {
+        this.updUserNm = updUserNm == null ? null : updUserNm.trim();
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public Date getUpdTime() {
+        return updTime;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime == null ? null : createTime.trim();
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public String getUpdTerminalIp() {
+        return updTerminalIp;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime == null ? null : updateTime.trim();
+    public void setUpdTerminalIp(String updTerminalIp) {
+        this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
     }
 
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_user
-     * 2023-07-23 22:37:00
+     * 2023-09-05 22:13:52
      */
     public void setId(String id) {
         this.userId=id;
@@ -426,7 +379,7 @@ public class SysUser implements UserDetails {
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_user
-     * 2023-07-23 22:37:00
+     * 2023-09-05 22:13:52
      */
     public String getId() {
         return userId;

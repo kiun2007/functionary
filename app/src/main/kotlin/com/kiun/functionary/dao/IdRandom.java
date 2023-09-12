@@ -56,6 +56,10 @@ public abstract class IdRandom {
         return seqSb.toString();
     }
 
+    public void fillId(){
+        setId(newId);
+    }
+
     public String exportId(){
         return getId();
     }
@@ -105,6 +109,9 @@ public abstract class IdRandom {
     }
 
     public boolean isNew(){
+        if (getId() == null){
+            return true;
+        }
         return newId.equals(getId());
     }
 }

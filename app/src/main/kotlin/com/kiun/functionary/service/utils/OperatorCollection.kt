@@ -5,6 +5,7 @@ import com.kiun.functionary.base.DataWrap
 import com.kiun.functionary.component.SpringUtils
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.catalina.core.ApplicationContext
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -79,6 +80,11 @@ inline fun <T: Number> T.approximately(eqValue: T, floating: T) : Boolean {
 inline fun Any.toJson(): String{
     val bean = SpringUtils.getBean(Gson::class.java)
     return bean.toJson(this)
+}
+
+inline fun Any.toMap(): Map<String, Any> {
+    val bean = SpringUtils.getBean(Gson::class.java)
+    return bean.fromJson(this.toJson(), object : ParameterizedTypeReference<Map<String, Any>>(){}.type)
 }
 
 
