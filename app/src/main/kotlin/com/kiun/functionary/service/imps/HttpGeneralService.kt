@@ -87,12 +87,32 @@ class HttpGeneralService : GeneralService {
         return mapper.selectByExample(example)
     }
 
+    fun fillEntryUser(entry: Any?){
+
+        if (entry == null){
+            return
+        }
+
+        entry.javaClass.getDeclaredFields().forEach {
+            val userId: UserId? = it.getAnnotation(UserId::class.java)
+            it.setAccessible(true)
+            var value: Any? = it.get(entry)
+            if (value == null && userId != null) {
+                val user = AppContext.currentUser()
+                value = user?.id!!
+            }
+            it.set(entry, value)
+        }
+
+    }
+
     override fun insertOrUpdateSelective(tableName: String, body: String): Boolean {
 
         val mapper = getMapper<Any>(tableName)
 
         val example = BaseExample.getExample(tableName)
         val entry = gson?.fromJson(body, example.entryClass)
+        fillEntryUser(entry)
 
         if (entry is IdRandom && !entry.isNew){
             return mapper.updateByPrimaryKeySelective(entry) > 0
@@ -105,6 +125,8 @@ class HttpGeneralService : GeneralService {
         val mapper = getMapper<Any>(tableName)
         val example = BaseExample.getExample(tableName)
         val entry = gson?.fromJson(body, example.entryClass)
+        fillEntryUser(entry)
+
         if (entry is IdRandom){
             entry.fillId()
         }
@@ -115,6 +137,7 @@ class HttpGeneralService : GeneralService {
         val mapper = getMapper<Any>(tableName)
         val example = BaseExample.getExample(tableName)
         val entry = gson?.fromJson(body, example.entryClass)
+        fillEntryUser(entry)
 
         val methods = mapper.javaClass.interfaces.map { iit-> iit.methods.find { it.name == "selectByPrimaryKey" } }.first()
 

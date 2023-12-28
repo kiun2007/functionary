@@ -46,36 +46,37 @@
                                                placeholder="选择日期"
                                                class="layui-input">
                                         <input
-                                                th:case="Number"
-                                                th:id="${item.getValue()}"
-                                                th:name="${item.getValue()}"
-                                                type="number"
-                                                autocomplete="false">
+                                            th:case="Number"
+                                            th:id="${item.getValue()}"
+                                            th:name="${item.getValue()}"
+                                            type="number"
+                                            autocomplete="false">
                                         <input
-                                                th:case="Bool"
-                                                th:id="${item.getValue()}"
-                                                th:name="${item.getValue()}"
-                                                type="checkbox"
-                                                autocomplete="false">
+                                            th:case="Bool"
+                                            th:id="${item.getValue()}"
+                                            th:name="${item.getValue()}"
+                                            type="checkbox"
+                                            autocomplete="false">
                                         <select
-                                                th:case="Enum"
-                                                th:id="${item.getValue()}"
-                                                th:name="${item.getValue()}">
+                                            th:case="Enum"
+                                            th:id="${item.getValue()}"
+                                            th:name="${item.getValue()}">
+                                            <option value>未选择</option>
                                             <!--/*@thymesVar id="optionItem" type="java.util.Map.Entry<java.lang.String, java.lang.String>"*/-->
                                             <option
-                                                    th:each="optionItem: ${item.getEnums().entrySet()}"
-                                                    th:text="${optionItem.getValue()}"
-                                                    th:value="${optionItem.getKey()}">
+                                                th:each="optionItem: ${item.getEnums().entrySet()}"
+                                                th:text="${optionItem.getValue()}"
+                                                th:value="${optionItem.getKey()}">
                                             </option>
                                         </select>
                                         <pre
-                                                th:case="CodeLine"
-                                                th:id="${item.getValue()}"
-                                                class="codeLine"></pre>
+                                            th:case="CodeLine"
+                                            th:id="${item.getValue()}"
+                                            class="codeLine"></pre>
                                         <pre
-                                                th:case="CodeMultiline"
-                                                th:id="${item.getValue()}"
-                                                class="codeMultiline"></pre>
+                                            th:case="CodeMultiline"
+                                            th:id="${item.getValue()}"
+                                            class="codeMultiline"></pre>
                                     </th:block>
                                 </li>
                                 <li>
@@ -101,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <div th:include="include :: footer"></div>
+        <div th:include="include::footer"></div>
         <script th:inline="javascript">
 
             var buildData = [[${buildData}]]

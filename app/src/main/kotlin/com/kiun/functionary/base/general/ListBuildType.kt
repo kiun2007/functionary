@@ -52,6 +52,11 @@ object FormFlag
      * 表格组合
      */
     const val TableSearch = Search or Table
+
+    /**
+     * 不操作组合
+     */
+    const val Disable = AddDisable or Add or Edit or EditDisable
 }
 
 object ButtonColor {
@@ -121,6 +126,11 @@ enum class FormType{
      * 多行代码
      */
     CodeMultiline,
+
+    /**
+     * 文本域
+     */
+    TextArea,
 
     /**
      * 隐藏

@@ -2,6 +2,7 @@ package com.kiun.functionary.dao.gks.entity;
 
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
+import com.kiun.functionary.base.general.UserId;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,6 +30,7 @@ public class UserAttribute extends IdRandom {
      */
     @ApiModelProperty("用户ID")
     @ListBuildItem(title = "用户ID")
+    @UserId
     private String userId;
 
     /**

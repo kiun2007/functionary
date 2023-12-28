@@ -21,7 +21,7 @@
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.6.10</kotlin.version>
-        <mybatis.auto.generate.version>1.0.20</mybatis.auto.generate.version>
+        <mybatis.auto.generate.version>1.0.21</mybatis.auto.generate.version>
     </properties>
 
     <!-- 许可证信息，这里是Apache 2.0的许可证，大家根据实际情况修改 -->

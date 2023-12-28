@@ -5,13 +5,14 @@ import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Date;
 
 /**
  * 系统操作日志表
  * 
  * sys_log
  *
- * 2023-07-23 22:37:00
+ * 2023-09-13 00:30:58
  */
 @ApiModel(description="系统操作日志表")
 @ListBuild(value = "SysLog", title = "系统操作日志表")
@@ -24,11 +25,11 @@ public class SysLog extends IdRandom {
     private String logId;
 
     /**
-     * 登录用户
+     * 日志概要
      */
-    @ApiModelProperty("登录用户")
-    @ListBuildItem(title = "登录用户")
-    private String loginName;
+    @ApiModelProperty("日志概要")
+    @ListBuildItem(title = "日志概要")
+    private String title;
 
     /**
      * 日志模块
@@ -36,6 +37,13 @@ public class SysLog extends IdRandom {
     @ApiModelProperty("日志模块")
     @ListBuildItem(title = "日志模块")
     private String moduleId;
+
+    /**
+     * 设备名称
+     */
+    @ApiModelProperty("设备名称")
+    @ListBuildItem(title = "设备名称")
+    private String deviceName;
 
     /**
      * 登录IP
@@ -52,32 +60,53 @@ public class SysLog extends IdRandom {
     private String logValue;
 
     /**
-     * 备注
+     * 添加用户
      */
-    @ApiModelProperty("备注")
-    @ListBuildItem(title = "备注")
-    private String remark;
+    @ApiModelProperty("添加用户")
+    @ListBuildItem(title = "添加用户")
+    private String addUserId;
 
     /**
-     * 创建人ID
+     * 添加用户名称
      */
-    @ApiModelProperty("创建人ID")
-    @ListBuildItem(title = "创建人ID")
-    private String createrId;
+    @ApiModelProperty("添加用户名称")
+    @ListBuildItem(title = "添加用户名称")
+    private String addUserNm;
 
     /**
-     * 创建日期yyyyMMdd
+     * 添加时间
      */
-    @ApiModelProperty("创建日期yyyyMMdd")
-    @ListBuildItem(title = "创建日期yyyyMMdd")
-    private String createDate;
+    @ApiModelProperty("添加时间")
+    @ListBuildItem(title = "添加时间")
+    private Date addTime;
 
     /**
-     * 创建时间 hhmmss
+     * 修改用户
      */
-    @ApiModelProperty("创建时间 hhmmss")
-    @ListBuildItem(title = "创建时间 hhmmss")
-    private String createTime;
+    @ApiModelProperty("修改用户")
+    @ListBuildItem(title = "修改用户")
+    private String updUserId;
+
+    /**
+     * 修改用户名称
+     */
+    @ApiModelProperty("修改用户名称")
+    @ListBuildItem(title = "修改用户名称")
+    private String updUserNm;
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty("修改时间")
+    @ListBuildItem(title = "修改时间")
+    private Date updTime;
+
+    /**
+     * 修改数据人员IP
+     */
+    @ApiModelProperty("修改数据人员IP")
+    @ListBuildItem(title = "修改数据人员IP")
+    private String updTerminalIp;
 
     public String getLogId() {
         return logId;
@@ -87,12 +116,12 @@ public class SysLog extends IdRandom {
         this.logId = logId == null ? null : logId.trim();
     }
 
-    public String getLoginName() {
-        return loginName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName == null ? null : loginName.trim();
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public String getModuleId() {
@@ -101,6 +130,14 @@ public class SysLog extends IdRandom {
 
     public void setModuleId(String moduleId) {
         this.moduleId = moduleId == null ? null : moduleId.trim();
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName == null ? null : deviceName.trim();
     }
 
     public String getRegId() {
@@ -119,42 +156,66 @@ public class SysLog extends IdRandom {
         this.logValue = logValue == null ? null : logValue.trim();
     }
 
-    public String getRemark() {
-        return remark;
+    public String getAddUserId() {
+        return addUserId;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setAddUserId(String addUserId) {
+        this.addUserId = addUserId == null ? null : addUserId.trim();
     }
 
-    public String getCreaterId() {
-        return createrId;
+    public String getAddUserNm() {
+        return addUserNm;
     }
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
+    public void setAddUserNm(String addUserNm) {
+        this.addUserNm = addUserNm == null ? null : addUserNm.trim();
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public Date getAddTime() {
+        return addTime;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate == null ? null : createDate.trim();
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
-    public String getCreateTime() {
-        return createTime;
+    public String getUpdUserId() {
+        return updUserId;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime == null ? null : createTime.trim();
+    public void setUpdUserId(String updUserId) {
+        this.updUserId = updUserId == null ? null : updUserId.trim();
+    }
+
+    public String getUpdUserNm() {
+        return updUserNm;
+    }
+
+    public void setUpdUserNm(String updUserNm) {
+        this.updUserNm = updUserNm == null ? null : updUserNm.trim();
+    }
+
+    public Date getUpdTime() {
+        return updTime;
+    }
+
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
+    }
+
+    public String getUpdTerminalIp() {
+        return updTerminalIp;
+    }
+
+    public void setUpdTerminalIp(String updTerminalIp) {
+        this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
     }
 
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_log
-     * 2023-07-23 22:37:00
+     * 2023-09-13 00:30:58
      */
     public void setId(String id) {
         this.logId=id;
@@ -163,7 +224,7 @@ public class SysLog extends IdRandom {
     /**
      * This method was generated by MyBatis Generator.
      * This method corresponds to the database table sys_log
-     * 2023-07-23 22:37:00
+     * 2023-09-13 00:30:58
      */
     public String getId() {
         return logId;

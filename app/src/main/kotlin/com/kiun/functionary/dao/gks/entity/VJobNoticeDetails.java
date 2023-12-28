@@ -13,7 +13,7 @@ import java.util.Date;
  * 
  * v_gks_job_notice_details
  *
- * 2023-08-16 13:15:32
+ * 2023-09-12 19:52:33
  */
 @ApiModel(description="VIEW")
 @ListBuild(value = "VJobNoticeDetails", title = "VIEW")
@@ -35,6 +35,12 @@ public class VJobNoticeDetails extends IdRandom {
     @ApiModelProperty("")
     @ListBuildItem(title = "")
     private Date publishTime;
+
+    /**
+     */
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
+    private Date startTime;
 
     /**
      */
@@ -112,6 +118,14 @@ public class VJobNoticeDetails extends IdRandom {
 
     public void setPublishTime(Date publishTime) {
         this.publishTime = publishTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public Date getEndTime() {

@@ -96,7 +96,7 @@ class GeneralPage {
         fillPageValue(formId, mmap)
         mmap?.put("formId", formId)
         mmap?.put("initRequest", initRequest)
-        return "general/list"
+        return "general/select-list"
     }
 
     private fun fillPageValue(formId: String, mmap: ModelMap?): ListBuildData?  {

@@ -14,7 +14,7 @@ import java.util.Date;
  *
  * sys_dict_item
  *
- * 2023-07-26 21:14:35
+ * 2023-10-09 17:16:21
  */
 @ApiModel(description="字典项详情")
 @ListBuild(value = "SysDictItem", title = "字典项详情")
@@ -59,6 +59,9 @@ public class SysDictItem extends IdRandom {
     @ApiModelProperty("字典值")
     @ListBuildItem(title = "字典值")
     private String itemVal;
+
+    @ApiModelProperty("别称")
+    private String itemAlias;
 
     /**
      * 排序
@@ -224,5 +227,13 @@ public class SysDictItem extends IdRandom {
 
     public void setUpdTerminalIp(String updTerminalIp) {
         this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
+    }
+
+    public String getItemAlias() {
+        return itemAlias;
+    }
+
+    public void setItemAlias(String itemAlias) {
+        this.itemAlias = itemAlias;
     }
 }

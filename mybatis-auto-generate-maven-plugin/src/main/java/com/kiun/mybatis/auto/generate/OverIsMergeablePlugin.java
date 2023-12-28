@@ -70,8 +70,8 @@ public class OverIsMergeablePlugin extends PluginAdapter {
         String baseExample = properties.exampleBase();
         if (baseExample != null){
             topLevelClass.setSuperClass(baseExample);
+            topLevelClass.getFields().removeIf(item->item.getName().equals("orderByClause"));
         }
-        topLevelClass.getFields().removeIf(item->item.getName().equals("orderByClause"));
 
         InnerClass generatedCriteria = topLevelClass.getInnerClasses()
                 .stream().filter(item-> item.getType().getShortName().equals("GeneratedCriteria")).findFirst().orElse(null);

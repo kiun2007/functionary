@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <th:block th:include="include :: header('列表')" />
+        <th:block th:include="include :: bootstrap-fileinput-css" />
+    </head>
+    <body class="gray-bg">
+        <div class="container-div">
+            <div class="row">
+                <div class="col-sm-12 search-collapse">
+                    <form id="formId">
+                        <div class="select-list">
+                            <ul>
+                                <!--/*@thymesVar id="items" type="java.util.List<com.kiun.functionary.base.general.ListBuildItemData>"*/-->
+                                <li th:each="item:${items}">
+                                    <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.ListBuildItemData"*/-->
+                                    <th:block th:if="${item.getSearchTitleWith()}" th:text="${item.getTitle()+':'}"></th:block>
+                                    <th:block th:if="${item.getSearchWith()}" th:switch="${item.getType()}">
+                                        <input
+                                                th:case="Hidden"
+                                                type="hidden"
+                                                th:value="${initRequest.get(item.getValue())}"
+                                                th:name="${item.getValue()}">
+                                        <input
+                                                th:case="Text"
+                                                th:id="${item.getValue()}"
+                                                th:name="${item.getValue()}"
+                                                type="text"
+                                                autocomplete="false">
+                                        <input type="text"
+                                               th:case="Date"
+                                               th:id="${item.getValue()}"
+                                               th:name="${item.getValue()}"
+                                               placeholder="选择日期"
+                                               class="layui-input">
+                                        <input type="text"
+                                               th:case="Time"
+                                               th:id="${item.getValue()}"
+                                               th:name="${item.getValue()}"
+                                               placeholder="选择日期"
+                                               class="layui-input">
+                                        <input type="text"
+                                               th:case="DateAndTime"
+                                               th:id="${item.getValue()}"
+                                               th:name="${item.getValue()}"
+                                               placeholder="选择日期"
+                                               class="layui-input">
+                                        <input
+                                                th:case="Number"
+                                                th:id="${item.getValue()}"
+                                                th:name="${item.getValue()}"
+                                                type="number"
+                                                autocomplete="false">
+                                        <input
+                                                th:case="Bool"
+                                                th:id="${item.getValue()}"
+                                                th:name="${item.getValue()}"
+                                                type="checkbox"
+                                                autocomplete="false">
+                                        <select
+                                                th:case="Enum"
+                                                th:id="${item.getValue()}"
+                                                th:name="${item.getValue()}">
+                                            <!--/*@thymesVar id="optionItem" type="java.util.Map.Entry<java.lang.String, java.lang.String>"*/-->
+                                            <option
+                                                    th:each="optionItem: ${item.getEnums().entrySet()}"
+                                                    th:text="${optionItem.getValue()}"
+                                                    th:value="${optionItem.getKey()}">
+                                            </option>
+                                        </select>
+                                        <pre
+                                                th:case="CodeLine"
+                                                th:id="${item.getValue()}"
+                                                class="codeLine"></pre>
+                                        <pre
+                                                th:case="CodeMultiline"
+                                                th:id="${item.getValue()}"
+                                                class="codeMultiline"></pre>
+                                    </th:block>
+                                </li>
+                                <li>
+                                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+                <div class="btn-group-sm" id="toolbar" role="group">
+
+                    <!--/*@thymesVar id="buildData" type="com.kiun.functionary.base.general.ListBuildData"*/-->
+                    <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.OperateData"*/-->
+                    <th:block th:each="item:${buildData.toolbars()}">
+                        <a onclick="toolbarClick(this)" th:data="${item.jsonString()}" class="btn btn-success" th:style="${'background-color:' + item.color + ';border-color: ' + item.color}" >
+                            <i th:class="${'fa '+ item.icon}"></i> <th:block th:text="${item.title}"></th:block>
+                        </a>
+                    </th:block>
+                </div>
+                <div class="col-sm-12 select-table table-striped">
+                    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+        <div th:include="include :: footer"></div>
+        <script th:inline="javascript">
+
+            var buildData = [[${buildData}]]
+            var prefix = ctx + "generalList/" + buildData.value;
+            var formId = [[${formId}]]
+
+            var items = [[${items}]]
+            var initRequest = [[${initRequest}]]
+
+            function toolbarClick(element){
+                var data = JSON.parse($(element).attr('data'))
+                if (data.function){
+                    $.operate[data.function](data.title, initRequest, data.url)
+                }
+            }
+
+            layui.use(['laydate'], function(){
+                items.filter(item=> item.type === 'Date' || item.type === 'Time' || item.type === 'DateAndTime').forEach(item=>{
+                    var laydate = layui.laydate;
+                    //执行一个laydate实例
+                    laydate.render({
+                        elem: '#' + item.value
+                    })
+                })
+            })
+
+            function columnFormItem(item){
+                var column = {
+                    field: item.value,
+                    title: item.title,
+                    visible: item.tableWith??false
+                }
+
+                if (item.type === 'Enum'){
+                    column.formatter = function (value, row, index) {
+                        return item.enums[value]
+                    }
+                }
+                return column
+            }
+
+            var columns = items.map(item=> columnFormItem(item))
+
+            $(function() {
+                var options = {
+                    url: prefix + "/page",
+                    createUrl: `/general/add/${formId}`,
+                    enableUrl: `/general/enable`,
+                    removeUrl: prefix + "/remove",
+                    exportUrl: prefix + "/export",
+                    modalName: buildData.title,
+                    showExport: true,
+                    columns: [
+                        {
+                            field: 'selectItem',
+                            radio: true
+                        },
+                        ... columns,
+                        {
+                            title: '操作',
+                            align: 'center',
+                            width: '200px',
+                            formatter: function(value, row, index) {
+                                var actions = []
+                                buildData.operate.forEach(item=> {
+                                    if (item.toolbar) return
+                                    if(item.function){
+                                        actions.push(`<a class="btn btn-success btn-xs" href="javascript:void(0)" data="${encodeURI(JSON.stringify(row))}" style="background-color: ${item.color};border-color: ${item.color}" onclick="$.operate.${item.function}('${item.title}', $(this).attr('data'), '${item.url}')"><i class="fa ${item.icon}"></i>${item.title}</a>`);
+                                    }
+                                })
+                                return actions.join(' ');
+                            }
+                        }]
+                };
+                $.table.init(options);
+            });
+        </script>
+    </body>
+</html>

@@ -1,5 +1,7 @@
 package com.kiun.functionary.dao;
 
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.read.listener.ReadListener;
 import com.kiun.functionary.base.BaseCriteria;
 import com.kiun.functionary.base.anno.UseQuery;
 import com.kiun.functionary.base.general.UserId;
@@ -39,6 +41,8 @@ public class BaseExample {
             }
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
         }
+
+
         return false;
     }
 

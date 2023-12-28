@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * v_gks_job_notice
  *
- * 2023-08-08 23:13:18
+ * 2023-09-12 19:52:33
  */
 @ApiModel(description="VIEW")
 @ListBuild(value = "VJobNotice", title = "岗位公告", operate = {

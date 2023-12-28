@@ -91,6 +91,11 @@ public abstract class IdRandom {
     }
 
     public IdRandom(){
+        flushId();
+    }
+
+
+    public void flushId(){
         setId(newId = getCommonID());
     }
 

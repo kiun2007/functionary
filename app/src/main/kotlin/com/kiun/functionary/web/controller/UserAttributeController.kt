@@ -1,6 +1,7 @@
 package com.kiun.functionary.web.controller
 
 import com.kiun.functionary.base.DataWrap
+import com.kiun.functionary.dao.gks.AgencyRecordMapper
 import com.kiun.functionary.dao.gks.entity.UserAttribute
 import com.kiun.functionary.service.UserAttributeService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,9 @@ class UserAttributeController {
 
     @Autowired
     val userAttributeService: UserAttributeService? = null
+
+    @Autowired
+    val agencyRecordService: AgencyRecordMapper? = null
 
     @PostMapping("save")
     fun save(@RequestBody attriList: List<UserAttribute>): DataWrap<List<UserAttribute>>

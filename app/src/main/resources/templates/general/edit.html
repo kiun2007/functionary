@@ -96,6 +96,7 @@
                             th:name="${item.getValue()}"
                             th:value="${data.get(item.getValue())}"
                             class="form-control">
+                        <option value>未选择</option>
                         <option
                             th:each="optionItem: ${item.getEnums().entrySet()}"
                             th:text="${optionItem.getValue()}"

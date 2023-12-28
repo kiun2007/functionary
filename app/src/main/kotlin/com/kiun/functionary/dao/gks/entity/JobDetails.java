@@ -1,6 +1,7 @@
 package com.kiun.functionary.dao.gks.entity;
 
-import com.kiun.functionary.base.general.*;
+import com.kiun.functionary.base.general.ListBuild;
+import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,27 +13,23 @@ import java.util.Date;
  *
  * gks_job_details
  *
- * 2023-08-08 23:13:18
+ * 2023-11-29 00:33:16
  */
 @ApiModel(description="岗位信息")
-@ListBuild(value = "JobDetails", title = "岗位信息", operate = {
-        @Operate(title = "添加", url = "/general/add/JobDetails?jobNotice={jobNotice}", icon = "fa-plus", toolbar = true),
-        @Operate(title = "编辑", url = "/general/edit/JobDetails?id={id}&jobNotice={jobNotice}"),
-        @Operate(title = "删除", url = "/general/delete", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
-})
+@ListBuild(value = "JobDetails", title = "岗位信息")
 public class JobDetails extends IdRandom {
     /**
      * 主键
      */
     @ApiModelProperty("主键")
-    @ListBuildItem(title = "主键", flag = FormFlag.Edit | FormFlag.EditDisable)
+    @ListBuildItem(title = "主键")
     private String id;
 
     /**
      * 公告
      */
     @ApiModelProperty("公告")
-    @ListBuildItem(title = "公告", flag = FormFlag.Update|FormFlag.Search, type = FormType.Hidden)
+    @ListBuildItem(title = "公告")
     private String jobNotice;
 
     /**
@@ -46,134 +43,151 @@ public class JobDetails extends IdRandom {
      * 招聘人数
      */
     @ApiModelProperty("招聘人数")
-    @ListBuildItem(title = "招聘人数", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "招聘人数")
     private Integer jobCount;
 
     /**
      * 薪资待遇
      */
     @ApiModelProperty("薪资待遇")
-    @ListBuildItem(title = "薪资待遇", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "薪资待遇")
     private BigDecimal jobSalary;
 
     /**
      * 岗位要求
      */
     @ApiModelProperty("岗位要求")
-    @ListBuildItem(title = "岗位要求", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "岗位要求")
     private String jobRequire;
 
     /**
      * 工作职责
      */
     @ApiModelProperty("工作职责")
-    @ListBuildItem(title = "工作职责", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "工作职责")
     private String jobWork;
+
+    /**
+     * 联系电话
+     */
+    @ApiModelProperty("联系电话")
+    @ListBuildItem(title = "联系电话")
+    private String jobTele;
 
     /**
      * 专业要求
      */
     @ApiModelProperty("专业要求")
-    @ListBuildItem(title = "专业要求", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "专业要求")
     private String factorSpeciality;
 
     /**
      * 学历要求
      */
     @ApiModelProperty("学历要求")
-    @ListBuildItem(title = "学历要求", flag = FormFlag.Update|FormFlag.Table, type = FormType.Select,selectOpt = @Select(
-            label = "factorEducationName",
-            formLabel = "itemVal",
-            formValue = "itemKey",
-            url = "/general/select-tree/VSysDictItemTree?dictId=gks_education&parentCode=parentId&code=id"
-    ))
+    @ListBuildItem(title = "学历要求")
     private String factorEducation;
+
+    /**
+     * 基础经历要求
+     */
+    @ApiModelProperty("基础经历要求")
+    @ListBuildItem(title = "基础经历要求")
+    private String factorUndergo;
 
     /**
      * 性别要求
      */
     @ApiModelProperty("性别要求")
-    @ListBuildItem(title = "性别要求", flag = FormFlag.Update|FormFlag.Table, type = FormType.Select,selectOpt = @Select(
-            label = "factorGenderName",
-            formLabel = "itemVal",
-            formValue = "itemKey",
-            url = "/general/select-tree/VSysDictItemTree?dictId=gks_gender&parentCode=parentId&code=id"
-    ))
+    @ListBuildItem(title = "性别要求")
     private String factorGender;
 
     /**
      * 户籍地
      */
     @ApiModelProperty("户籍地")
-    @ListBuildItem(title = "户籍地", flag = FormFlag.Update|FormFlag.Table, type = FormType.Select, selectOpt = @Select(
-            label = "factorDomicileName",
-            formLabel = "itemVal",
-            formValue = "itemKey",
-            url = "/general/select-tree/VSysDictItemTree?dictId=gks_region&parentCode=parentId&code=id")
-    )
+    @ListBuildItem(title = "户籍地")
     private String factorDomicile;
 
     /**
      * 最大年龄
      */
     @ApiModelProperty("最大年龄")
-    @ListBuildItem(title = "最大年龄", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "最大年龄")
     private Integer factorAgeMax;
 
     /**
      * 最小年龄
      */
     @ApiModelProperty("最小年龄")
-    @ListBuildItem(title = "最小年龄", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "最小年龄")
     private Integer factorAgeMin;
+
+    @ApiModelProperty("考试类型(冗余字段加快搜索)")
+    private String type;
+
+    /**
+     * 考试区域(冗余字段加快搜索)
+     */
+    @ApiModelProperty("考试区域(冗余字段加快搜索)")
+    private String region;
 
     /**
      * 备注
      */
     @ApiModelProperty("备注")
-    @ListBuildItem(title = "备注", flag = FormFlag.Update|FormFlag.Table)
+    @ListBuildItem(title = "备注")
     private String factorDesc;
 
     /**
-     * 添加用户
+     * 源数据URL
      */
-    @ApiModelProperty("添加用户")
+    @ApiModelProperty("源数据URL")
+    @ListBuildItem(title = "源数据URL")
+    private String sourceUrl;
+
+    /**
+     */
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
     private String addUserId;
 
     /**
-     * 添加用户名称
      */
-    @ApiModelProperty("添加用户名称")
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
     private String addUserNm;
 
     /**
      * 添加时间
      */
     @ApiModelProperty("添加时间")
+    @ListBuildItem(title = "添加时间")
     private Date addTime;
 
     /**
-     * 修改用户
      */
-    @ApiModelProperty("修改用户")
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
     private String updUserId;
 
     /**
-     * 修改用户名称
      */
-    @ApiModelProperty("修改用户名称")
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
     private String updUserNm;
 
     /**
      * 修改时间
      */
     @ApiModelProperty("修改时间")
+    @ListBuildItem(title = "修改时间")
     private Date updTime;
 
     /**
-     * 修改数据人员IP
      */
-    @ApiModelProperty("修改数据人员IP")
+    @ApiModelProperty("")
+    @ListBuildItem(title = "")
     private String updTerminalIp;
 
     public String getId() {
@@ -232,6 +246,14 @@ public class JobDetails extends IdRandom {
         this.jobWork = jobWork == null ? null : jobWork.trim();
     }
 
+    public String getJobTele() {
+        return jobTele;
+    }
+
+    public void setJobTele(String jobTele) {
+        this.jobTele = jobTele == null ? null : jobTele.trim();
+    }
+
     public String getFactorSpeciality() {
         return factorSpeciality;
     }
@@ -246,6 +268,14 @@ public class JobDetails extends IdRandom {
 
     public void setFactorEducation(String factorEducation) {
         this.factorEducation = factorEducation == null ? null : factorEducation.trim();
+    }
+
+    public String getFactorUndergo() {
+        return factorUndergo;
+    }
+
+    public void setFactorUndergo(String factorUndergo) {
+        this.factorUndergo = factorUndergo == null ? null : factorUndergo.trim();
     }
 
     public String getFactorGender() {
@@ -286,6 +316,14 @@ public class JobDetails extends IdRandom {
 
     public void setFactorDesc(String factorDesc) {
         this.factorDesc = factorDesc == null ? null : factorDesc.trim();
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl == null ? null : sourceUrl.trim();
     }
 
     public String getAddUserId() {
@@ -342,5 +380,21 @@ public class JobDetails extends IdRandom {
 
     public void setUpdTerminalIp(String updTerminalIp) {
         this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

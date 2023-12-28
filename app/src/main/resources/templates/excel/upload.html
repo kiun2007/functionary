@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('Excel上传')" />
+	<th:block th:include="include :: bootstrap-fileinput-css" />
+</head>
+<body class="gray-bg">
+	<form class="form-horizontal m" method="post" id="form-add">
+		<div class="form-group">
+			<label class="col-sm-3 control-label ">导入方案:</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<select
+						id="planId"
+						name="planId"
+						class="form-control">
+						<option
+							th:each="optionItem: ${planItems}"
+							th:text="${optionItem.title}"
+							th:value="${optionItem.id}">
+						</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label ">所属公告:</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<input
+						type="hidden"
+						id="noticeId"
+						name="noticeId" >
+					<input
+						class="form-control"
+						type="text"
+						onclick="selectValue(this, false)"
+						id="noticeName"
+						readonly="true"
+						name="noticeName"
+						th:data="${selectData.jsonString()}">
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="col-sm-3 control-label ">所属公告:</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<div class="file-loading">
+						<input id="apk_upload" type="file" >
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+    <div th:include="include :: footer"></div>
+	<th:block th:include="include :: bootstrap-fileinput-js" />
+    <script th:inline="javascript">
+		$(document).ready(function () {
+			$("#apk_upload").fileinput({
+				'theme': 'explorer-fas',
+				'uploadUrl': ctx + 'api/excel/importNotice',
+				overwriteInitial: false,
+				initialPreviewAsData: true,
+				allowedFileExtensions : ['xlsx','xls'],
+				uploadExtraData: function (previewId, index) {
+					return {noticeId: $("#noticeId").val(), planId: $("#planId").val()}
+				}
+			})
+			.on("fileuploaded", function(e, data, previewiId, index) {
+				if (data.response.code == 0){
+					console.log(data.response)
+					window.location = `/excel/importReview/${data.response.data}`
+				}
+			})
+		});
+    </script>
+</body>
+</html>

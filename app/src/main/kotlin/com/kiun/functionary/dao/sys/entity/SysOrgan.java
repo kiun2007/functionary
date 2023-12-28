@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * sys_organ
  *
- * 2023-08-02 21:27:48
+ * 2023-11-12 12:45:59
  */
 @ApiModel(description="机构单位")
 @ListBuild(value = "SysOrgan", title = "机构单位", operate = {
@@ -39,7 +39,6 @@ public class SysOrgan extends IdRandom {
      * 机构类型
      */
     @ApiModelProperty("机构类型")
-    @ListBuildItem(title = "机构类型")
     private String organType;
 
     /**
@@ -94,6 +93,20 @@ public class SysOrgan extends IdRandom {
      */
     @ApiModelProperty("区域标识")
     private String rangId;
+
+    /**
+     * 区域名称
+     */
+    @ApiModelProperty("区域名称")
+    private String rangName;
+
+    public String getRangName() {
+        return rangName;
+    }
+
+    public void setRangName(String rangName) {
+        this.rangName = rangName;
+    }
 
     /**
      * 添加用户

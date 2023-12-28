@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Stream;
 
@@ -53,25 +54,37 @@ public class CommonInfoInterceptor implements Interceptor {
         SqlCommandType commandType = ms.getSqlCommandType();
         SysUser mUser = AppContext.currentUser();
         Object putTemplate = parameter;
+        if (parameter instanceof Map<?,?>){
+            Object record = ((Map<?, ?>) parameter).get("record");
+            if(record != null){
+                putTemplate = record;
+            }
+        }
 
-        if (mUser != null && (commandType == SqlCommandType.INSERT || commandType == SqlCommandType.UPDATE)){
+        if ((commandType == SqlCommandType.INSERT || commandType == SqlCommandType.UPDATE)){
 
             if (commandType == SqlCommandType.INSERT){
                 //创建日期
                 ObjectUtil.setValue(putTemplate, "addTime", new Object[]{new Date(), LocalDate.now(), LocalTime.now(), LocalDateTime.now()});
-                //创建用户ID
-                ObjectUtil.setValue(putTemplate, "addUserId", mUser.getUserId());
-                //创建用户名称
-                ObjectUtil.setValue(putTemplate, "addUserNm", mUser.getUserName());
+
+                if (mUser != null){
+                    //创建用户ID
+                    ObjectUtil.setValue(putTemplate, "addUserId", mUser.getUserId());
+                    //创建用户名称
+                    ObjectUtil.setValue(putTemplate, "addUserNm", mUser.getUserName());
+                }
             }
             //终端IP
             ObjectUtil.setValue(putTemplate, "updTerminalIp", ip);
+
+            if (mUser != null) {
+                //创建用户ID
+                ObjectUtil.setValue(putTemplate, "updUserId", mUser.getUserId());
+                //创建用户名称
+                ObjectUtil.setValue(putTemplate, "updUserNm", mUser.getUserName());
+            }
             //修改日期
             ObjectUtil.setValue(putTemplate, "updTime", new Object[]{new Date(), LocalDate.now(), LocalTime.now(), LocalDateTime.now()});
-            //创建用户ID
-            ObjectUtil.setValue(putTemplate, "updUserId", mUser.getUserId());
-            //创建用户名称
-            ObjectUtil.setValue(putTemplate, "updUserNm", mUser.getUserName());
         }
         return executor.update(ms, parameter);
     }

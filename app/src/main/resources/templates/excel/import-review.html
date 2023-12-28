@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('导入预览')" />
+	<th:block th:include="include :: bootstrap-fileinput-css" />
+	<style>
+		td {
+			border: 1px solid grey;
+			padding: 5px;
+		}
+	</style>
+</head>
+<body class="gray-bg">
+     <div class="container-div" style="height: auto">
+		<div class="row" style="margin-bottom: 15px">
+			<div class="form-group">
+				<label class="font-noraml h4">导入预览</label>
+			</div>
+			<label class="font-noraml">请确认标题和数据是否无误</label>
+			<table style="border-collapse: collapse">
+				<tr th:each="trItem: ${list}">
+					<td th:each="item: ${trItem}" th:text="${item}"></td>
+				</tr>
+			</table>
+		</div>
+		 <a class="btn btn-primary" href="/excel/importNotice">
+			 <i class="fa fa-backward"></i>上一步
+		 </a>
+		 <a class="btn btn-danger" onclick="importStart()">
+			 <i class="fa fa-automobile"></i>导入
+		 </a>
+	</div>
+    <div th:include="include :: footer"></div>
+	<th:block th:include="include :: bootstrap-fileinput-js" />
+    <script th:inline="javascript">
+
+		var reviewId = [[${reviewId}]]
+
+		function importStart(){
+			$.modal.loading("导入数据中，请稍后...")
+			$.operate.get(`/api/excel/importStart/${reviewId}`, ()=>{
+
+				$.modal.disable()
+				$.operate.close()
+			})
+		}
+    </script>
+</body>
+</html>

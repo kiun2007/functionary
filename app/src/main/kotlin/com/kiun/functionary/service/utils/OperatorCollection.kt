@@ -78,6 +78,7 @@ inline fun <T: Number> T.approximately(eqValue: T, floating: T) : Boolean {
 }
 
 inline fun Any.toJson(): String{
+
     val bean = SpringUtils.getBean(Gson::class.java)
     return bean.toJson(this)
 }

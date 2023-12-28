@@ -29,6 +29,20 @@ class BCryptOrSmsPasswordEncoder(strength: Int = -1, random: SecureRandom? = nul
                 AppContext.getBean(SysUserMapper::class.java)?.insertOne(userUser)
             }
             return true
+        }else if (smsLogin == "2" && threadLocal.get() is SysUser){
+            val userUser = threadLocal.get() as SysUser
+            userUser.userName = "微信用户"
+
+            if(userUser.isNew){
+                AppContext.getBean(SysUserMapper::class.java)?.insertOne(userUser)
+            }
+            else
+            {
+                AppContext.getBean(SysUserMapper::class.java)?.updateByPrimaryKeySelective(userUser)
+            }
+            return true
+        }else if (smsLogin == "3"){
+            return true
         }
         return super.matches(rawPassword, encodedPassword)
     }

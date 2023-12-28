@@ -30,7 +30,14 @@ class GeneralController {
 
     @PostMapping("{tableName}/insertOrUpdate")
     fun insertOrUpdate(@PathVariable("tableName") tableName: String, @RequestBody req: String) : DataWrap<Boolean> {
-        return DataWrap.success(generalService?.insertOrUpdateSelective(tableName, req))
+
+        var ret = false
+        try {
+            ret = generalService?.insertOrUpdateSelective(tableName, req)?:false
+        }catch (ex: Exception){
+            ret = generalService?.update(tableName, req)?:false
+        }
+        return DataWrap.success(ret)
     }
 
     @PostMapping("{tableName}/insert")

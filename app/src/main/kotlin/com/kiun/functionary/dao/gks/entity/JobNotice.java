@@ -11,11 +11,10 @@ import java.util.Date;
  *
  * gks_job_notice
  *
- * 2023-08-08 23:07:12
+ * 2023-10-14 11:41:44
  */
 @ApiModel(description="岗位公告")
-@ListBuild(value = "JobNotice", title = "岗位公告", operate = {
-})
+@ListBuild(value = "JobNotice", title = "岗位公告")
 public class JobNotice extends IdRandom {
     /**
      * 主键
@@ -30,6 +29,17 @@ public class JobNotice extends IdRandom {
     @ApiModelProperty("招聘标题")
     @ListBuildItem(title = "招聘标题")
     private String title;
+
+    @ApiModelProperty("开始时间")
+    @ListBuildItem(title = "开始时间")
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty("结束时间")
+    @ListBuildItem(title = "结束时间")
+    private Date endTime;
 
     /**
      * 发布时间
@@ -51,6 +61,16 @@ public class JobNotice extends IdRandom {
     private String organId;
 
     /**
+     * 公告类型
+     */
+    @ListBuildItem(title = "考试类型", type = FormType.Select, selectOpt = @Select(
+            label = "typeName",
+            formLabel = "itemVal",
+            formValue = "itemKey",
+            url = "/general/select-tree/VSysDictItemTree?dictId=gks_type&parentCode=parentId&code=id"))
+    private String type;
+
+    /**
      * 信息发布网址
      */
     @ApiModelProperty("信息发布网址")
@@ -63,6 +83,33 @@ public class JobNotice extends IdRandom {
     @ApiModelProperty("招聘发布网址")
     @ListBuildItem(title = "招聘发布网址")
     private String jobUrl;
+
+    /**
+     * 区域编码
+     */
+    @ApiModelProperty("区域编码")
+    @ListBuildItem(title = "区域编码")
+    private String rangCd;
+
+    /**
+     * 区域标识
+     */
+    @ApiModelProperty("区域标识")
+    @ListBuildItem(title = "区域标识")
+    private String rangId;
+
+    /**
+     * 区域名称
+     */
+    @ApiModelProperty("区域名称")
+    @ListBuildItem(title = "区域名称")
+    private String rangName;
+
+    @ApiModelProperty("公告详情")
+    @ListBuildItem(title = "公告详情", type = FormType.Text)
+    private String details;
+
+
 
     /**
      * 详情页网址
@@ -233,5 +280,61 @@ public class JobNotice extends IdRandom {
      */
     public String getId() {
         return id;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getRangCd() {
+        return rangCd;
+    }
+
+    public void setRangCd(String rangCd) {
+        this.rangCd = rangCd == null ? null : rangCd.trim();
+    }
+
+    public String getRangId() {
+        return rangId;
+    }
+
+    public void setRangId(String rangId) {
+        this.rangId = rangId == null ? null : rangId.trim();
+    }
+
+    public String getRangName() {
+        return rangName;
+    }
+
+    public void setRangName(String rangName) {
+        this.rangName = rangName == null ? null : rangName.trim();
     }
 }

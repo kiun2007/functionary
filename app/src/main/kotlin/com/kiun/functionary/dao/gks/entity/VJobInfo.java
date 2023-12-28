@@ -1,5 +1,6 @@
 package com.kiun.functionary.dao.gks.entity;
 
+import com.kiun.functionary.base.general.FormFlag;
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
@@ -10,10 +11,10 @@ import java.util.Date;
 
 /**
  * VIEW
- * 
+ *
  * v_gks_job_info
  *
- * 2023-09-12 19:17:49
+ * 2023-09-12 23:45:53
  */
 @ApiModel(description="VIEW")
 @ListBuild(value = "VJobInfo", title = "VIEW")
@@ -75,6 +76,13 @@ public class VJobInfo extends IdRandom {
     private String factorSpeciality;
 
     /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String factorSpecialityName;
+
+    /**
      * 学历要求
      */
     @ApiModelProperty("学历要求")
@@ -82,11 +90,39 @@ public class VJobInfo extends IdRandom {
     private String factorEducation;
 
     /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String factorEducationName;
+
+    /**
      * 性别要求
      */
     @ApiModelProperty("性别要求")
     @ListBuildItem(title = "性别要求")
     private String factorGender;
+
+    /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String factorGenderName;
+
+    /**
+     * 基础经历要求
+     */
+    @ApiModelProperty("基础经历要求")
+    @ListBuildItem(title = "基础经历要求")
+    private String factorUndergo;
+
+    /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String factorUndergoName;
 
     /**
      * 户籍地
@@ -176,6 +212,41 @@ public class VJobInfo extends IdRandom {
     private Date endTime;
 
     /**
+     * 机构名
+     */
+    @ApiModelProperty("机构名")
+    @ListBuildItem(title = "机构名")
+    private String organName;
+
+    /**
+     * 机构名
+     */
+    @ApiModelProperty("机构名")
+    @ListBuildItem(title = "机构名")
+    private String parentOrganName;
+
+    /**
+     * 手机号
+     */
+    @ApiModelProperty("手机号")
+    @ListBuildItem(title = "手机号")
+    private String phoneNo;
+
+    /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String regionName;
+
+    /**
+     * 字典值
+     */
+    @ApiModelProperty("字典值")
+    @ListBuildItem(title = "字典值")
+    private String organTypeName;
+
+    /**
      */
     @ApiModelProperty("")
     @ListBuildItem(title = "")
@@ -245,6 +316,14 @@ public class VJobInfo extends IdRandom {
         this.factorSpeciality = factorSpeciality == null ? null : factorSpeciality.trim();
     }
 
+    public String getFactorSpecialityName() {
+        return factorSpecialityName;
+    }
+
+    public void setFactorSpecialityName(String factorSpecialityName) {
+        this.factorSpecialityName = factorSpecialityName == null ? null : factorSpecialityName.trim();
+    }
+
     public String getFactorEducation() {
         return factorEducation;
     }
@@ -253,12 +332,44 @@ public class VJobInfo extends IdRandom {
         this.factorEducation = factorEducation == null ? null : factorEducation.trim();
     }
 
+    public String getFactorEducationName() {
+        return factorEducationName;
+    }
+
+    public void setFactorEducationName(String factorEducationName) {
+        this.factorEducationName = factorEducationName == null ? null : factorEducationName.trim();
+    }
+
     public String getFactorGender() {
         return factorGender;
     }
 
     public void setFactorGender(String factorGender) {
         this.factorGender = factorGender == null ? null : factorGender.trim();
+    }
+
+    public String getFactorGenderName() {
+        return factorGenderName;
+    }
+
+    public void setFactorGenderName(String factorGenderName) {
+        this.factorGenderName = factorGenderName == null ? null : factorGenderName.trim();
+    }
+
+    public String getFactorUndergo() {
+        return factorUndergo;
+    }
+
+    public void setFactorUndergo(String factorUndergo) {
+        this.factorUndergo = factorUndergo == null ? null : factorUndergo.trim();
+    }
+
+    public String getFactorUndergoName() {
+        return factorUndergoName;
+    }
+
+    public void setFactorUndergoName(String factorUndergoName) {
+        this.factorUndergoName = factorUndergoName == null ? null : factorUndergoName.trim();
     }
 
     public String getFactorDomicile() {
@@ -363,6 +474,46 @@ public class VJobInfo extends IdRandom {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getOrganName() {
+        return organName;
+    }
+
+    public void setOrganName(String organName) {
+        this.organName = organName == null ? null : organName.trim();
+    }
+
+    public String getParentOrganName() {
+        return parentOrganName;
+    }
+
+    public void setParentOrganName(String parentOrganName) {
+        this.parentOrganName = parentOrganName == null ? null : parentOrganName.trim();
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo == null ? null : phoneNo.trim();
+    }
+
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName == null ? null : regionName.trim();
+    }
+
+    public String getOrganTypeName() {
+        return organTypeName;
+    }
+
+    public void setOrganTypeName(String organTypeName) {
+        this.organTypeName = organTypeName == null ? null : organTypeName.trim();
     }
 
     public String getDetails() {
