@@ -13,22 +13,21 @@ function convertUrl(json, url){
 	}
 }
 
-function selectValue(element) {
+function selectValue(element, isTree = true) {
 
 	var data = JSON.parse($(element).attr('data'))
-	debugger
 	var url = convertUrl(data, data.selectOpt.url)
 
 	var options = {
 		title: data.title + '选择',
 		width: "600",
 		url: url,
-		callBack: doSubmit.bind(data)
+		callBack: doSubmit.bind(data, isTree)
 	}
 	$.modal.openOptions(options);
 }
 
-function doSubmit(index, layero){
+function doSubmit(isTree, index, layero){
 
 	var body = layer.getChildFrame('body', index)
 
@@ -39,8 +38,12 @@ function doSubmit(index, layero){
 		}
 	}
 
-	var selection = body.context[frameName].$("#bootstrap-tree-table").bootstrapTreeTable('getSelections')
+	var selection = isTree ?
+		body.context[frameName].$("#bootstrap-tree-table").bootstrapTreeTable('getSelections'):
+		body.context[frameName].$("#bootstrap-table").bootstrapTable('getSelections')
+
 	if (selection.length === 0){
+		console.log('====未选中任何行')
 		return layer.msg('未选中任何行')
 	}
 
@@ -757,6 +760,9 @@ function doSubmit(index, layero){
 					$.unblockUI();
 				}, 50);
 			},
+			closeLoadingNow() {
+				$.unblockUI();
+			},
 			// 重新加载
 			reload: function () {
 				parent.location.reload();
@@ -776,7 +782,9 @@ function doSubmit(index, layero){
 					},
 					success: function(result) {
 						if (typeof callback == "function") {
-							callback(result);
+							if(callback(result)){
+								return
+							}
 						}
 						$.operate.ajaxSuccess(result);
 					}
@@ -790,6 +798,12 @@ function doSubmit(index, layero){
 			// get请求传输
 			get: function(url, callback) {
 				$.operate.submit(url, "get", "json", "", callback);
+			},
+			// get请求传输
+			answerAndGet: function(url, message, callback) {
+				$.modal.confirm(message, function() {
+					$.operate.submit(url, "get", "json", "", callback);
+				})
 			},
 			// 详细信息
 			detail: function(id, width, height) {
@@ -896,6 +910,12 @@ function doSubmit(index, layero){
 			//打开模块
 			openModel: function (title, json, url) {
 				$.modal.open(title, convertUrl(json, url))
+			},
+			copyUrl: function (title, json, url) {
+				$.modal.confirm("确定复制该条" + $.table._option.modalName + " 吗？", function() {
+					url = convertUrl(json, url)
+					$.operate.get(url)
+				})
 			},
 			removeUrl: function (title, json, url){
 				$.modal.confirm("确定删除该条" + title + "信息吗？", function() {

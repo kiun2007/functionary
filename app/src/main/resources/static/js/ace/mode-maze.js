@@ -26,7 +26,7 @@ var MazeHighlightRules = function () {
             }, {
                 token: "keyword.control",
                 regex: /\^\^/,
-                comment: "Start"
+                comment: "Started"
             }, {
                 token: "keyword.control",
                 regex: /\(\)/,
@@ -253,4 +253,3 @@ exports.Mode = Mode;
                         }
                     });
                 })();
-            

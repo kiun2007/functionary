@@ -84,7 +84,7 @@ annotation class ListBuild(
         Operate("删除", function = "removeAll", color = ButtonColor.Danger, icon = "fa-remove", toolbar = true),
         Operate("添加", url = "/general/add/@{formId}", color = ButtonColor.BrandColor, icon = "fa-plus", toolbar = true),
         Operate("编辑", url = "/general/edit/@{formId}?id={id}"),
-        Operate("删除", url = "/general/delete", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
+        Operate("删除", url = "/api/general/@{formId}/remove?id={id}", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
     ]
 )
 
@@ -184,10 +184,10 @@ annotation class ListBuildItem (
      */
     val selectOpt: Select = Select(),
 
-        /**
+    /**
      * 标识
      */
-    val flag: Int = FormFlag.Add or FormFlag.Edit or FormFlag.Search or FormFlag.Table
+    val flag: Int = FormFlag.Add or FormFlag.Edit or FormFlag.Search or FormFlag.Table,
 )
 
 data class SelectData(
@@ -274,6 +274,13 @@ data class ListBuildItemData (
 
     fun getTableWith(): Boolean{
         return (flag and FormFlag.Table) != 0
+    }
+
+    /**
+     * 是否必填
+     */
+    fun isRequired(): Boolean {
+        return  (flag and FormFlag.Required) != 0
     }
 
     fun jsonString() : String{

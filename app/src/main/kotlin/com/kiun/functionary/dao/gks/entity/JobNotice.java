@@ -6,16 +6,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
+import static com.kiun.functionary.base.general.FormFlag.All;
+import static com.kiun.functionary.base.general.FormFlag.Required;
+
 /**
  * 岗位公告
  *
  * gks_job_notice
  *
- * 2023-10-14 11:41:44
+ * 2024-01-20 13:33:57
  */
 @ApiModel(description="岗位公告")
 @ListBuild(value = "JobNotice", title = "岗位公告")
 public class JobNotice extends IdRandom {
+
     /**
      * 主键
      */
@@ -27,25 +31,25 @@ public class JobNotice extends IdRandom {
      * 招聘标题
      */
     @ApiModelProperty("招聘标题")
-    @ListBuildItem(title = "招聘标题")
+    @ListBuildItem(title = "招聘标题", flag = All|Required)
     private String title;
 
     @ApiModelProperty("开始时间")
-    @ListBuildItem(title = "开始时间")
+    @ListBuildItem(title = "开始时间", flag = All|Required)
     private Date startTime;
 
     /**
      * 结束时间
      */
     @ApiModelProperty("结束时间")
-    @ListBuildItem(title = "结束时间")
+    @ListBuildItem(title = "结束时间", flag = All|Required)
     private Date endTime;
 
     /**
      * 发布时间
      */
     @ApiModelProperty("发布时间")
-    @ListBuildItem(title = "发布时间")
+    @ListBuildItem(title = "发布时间", flag = All|Required)
     private Date publishTime;
 
     /**
@@ -63,12 +67,19 @@ public class JobNotice extends IdRandom {
     /**
      * 公告类型
      */
-    @ListBuildItem(title = "考试类型", type = FormType.Select, selectOpt = @Select(
+    @ListBuildItem(title = "考试类型", flag = All|Required, type = FormType.Select, selectOpt = @Select(
             label = "typeName",
             formLabel = "itemVal",
             formValue = "itemKey",
             url = "/general/select-tree/VSysDictItemTree?dictId=gks_type&parentCode=parentId&code=id"))
     private String type;
+
+    /**
+     * 输入类型
+     */
+    @ApiModelProperty("录入类型")
+    @ListBuildItem(title = "录入类型", flag = All|Required, type = FormType.Enum, enums = {"0", "自动导入/爬虫", "1", "手动录入"})
+    private String inputType;
 
     /**
      * 信息发布网址
@@ -106,10 +117,8 @@ public class JobNotice extends IdRandom {
     private String rangName;
 
     @ApiModelProperty("公告详情")
-    @ListBuildItem(title = "公告详情", type = FormType.Text)
+    @ListBuildItem(title = "公告详情", type = FormType.TextArea)
     private String details;
-
-
 
     /**
      * 详情页网址
@@ -222,6 +231,14 @@ public class JobNotice extends IdRandom {
 
     public void setAddUserNm(String addUserNm) {
         this.addUserNm = addUserNm == null ? null : addUserNm.trim();
+    }
+
+    public String getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
     }
 
     public Date getAddTime() {
@@ -337,4 +354,5 @@ public class JobNotice extends IdRandom {
     public void setRangName(String rangName) {
         this.rangName = rangName == null ? null : rangName.trim();
     }
+
 }

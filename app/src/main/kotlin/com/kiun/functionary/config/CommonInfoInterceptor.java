@@ -9,6 +9,8 @@ import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,13 +24,19 @@ import java.util.stream.Stream;
  * 公共参数填充
  */
 @Intercepts({
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
+//        @Signature(
+//                type = Executor.class,
+//                method = "query",
+//                args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}
+//        ),
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
 })
 @Component
 public class CommonInfoInterceptor implements Interceptor {
 
     private String getIp() {
         HttpServletRequest request = AppContext.getRequest();
+        if(request == null) return "127.0.0.1";
         String ip = Stream.of("x-forwarded-for", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR")
                 .map(item-> request.getHeader(item))
                 .filter(item-> !(item == null || item.isEmpty() || "unknown".equalsIgnoreCase(item)))
@@ -43,7 +51,7 @@ public class CommonInfoInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
 
-        HttpServletRequest request = AppContext.getRequest();
+//        HttpServletRequest request = AppContext.getRequest();
         Executor executor = (Executor) invocation.getTarget();
         Object[] args = invocation.getArgs();
 

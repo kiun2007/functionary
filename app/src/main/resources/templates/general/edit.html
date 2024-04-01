@@ -20,89 +20,131 @@
             <!--/*@thymesVar id="items" type="java.util.List<com.kiun.functionary.base.general.ListBuildItemData>"*/-->
             <div class="form-group" th:each="item:${items}" th:if="${item.getEditWith()}">
                 <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.ListBuildItemData"*/-->
-                <label th:if="${item.getEditWith()&&item.getType()!='Hidden'}" class="col-sm-3 control-label" th:text="${item.getTitle()+':'}"></label>
+                <label
+                    th:required="${item.isRequired()}"
+                    th:if="${item.getEditWith()&&item.getType()!='Hidden'}"
+                    class="col-sm-3 control-label"
+                    th:text="${item.getTitle()+':'}"></label>
                 <input type="hidden" th:value="${data.get(item.getValue())}" th:name="${item.getValue() + '__old'}">
                 <div th:if="${item.getEditWith()}" class="col-sm-8" th:switch="${item.getType()}">
                     <input
-                            th:case="Hidden"
-                            type="hidden"
-                            th:value="${data.get(item.getValue())}"
-                            th:name="${item.getValue()}">
+                        th:case="Hidden"
+                        type="hidden"
+                        th:value="${data.get(item.getValue())}"
+                        th:name="${item.getValue()}">
                     <div th:case="Select" class="input-group">
                         <input
-                                type="hidden"
-                                th:id="${item.getValue()}"
-                                th:name="${item.getValue()}"
-                                th:value="${data.get(item.getValue())}" >
+                            type="hidden"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}" >
                         <input
-                                class="form-control"
-                                type="text"
-                                onclick="selectValue(this)"
-                                th:id="${item.getSelectOpt().getLabel()}"
-                                readonly="true"
-                                th:data="${item.jsonString()}"
-                                th:name="${item.getSelectOpt().getLabel()}"
-                                th:value="${data.get(item.getSelectOpt().getLabel())}">
+                            readonly
+                            th:required="${item.isRequired()}"
+                            class="form-control"
+                            type="text"
+                            onclick="selectValue(this)"
+                            th:id="${item.getSelectOpt().getLabel()}"
+                            th:data="${item.jsonString()}"
+                            th:name="${item.getSelectOpt().getLabel()}"
+                            th:value="${data.get(item.getSelectOpt().getLabel())}">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     </div>
                     <input
-                            th:case="Text"
-                            th:id="${item.getValue()}"
-                            th:name="${item.getValue()}"
-                            th:value="${data.get(item.getValue())}"
-                            class="form-control"
-                            type="text"
-                            autocomplete="false">
+                        th:required="${item.isRequired()}"
+                        th:case="Text"
+                        th:id="${item.getValue()}"
+                        th:name="${item.getValue()}"
+                        th:value="${data.get(item.getValue())}"
+                        class="form-control"
+                        type="text"
+                        autocomplete="false">
                     <input type="text"
-                           th:case="Date"
-                           th:id="${item.getValue()}"
-                           th:name="${item.getValue()}"
-                           th:value="${data.get(item.getValue())}"
-                           placeholder="选择日期"
-                           class="layui-input form-control">
+                       readonly
+                       th:required="${item.isRequired()}"
+                       th:case="Date"
+                       th:id="${item.getValue()}"
+                       th:name="${item.getValue()}"
+                       th:value="${data.get(item.getValue())}"
+                       placeholder="选择日期"
+                       class="layui-input form-control">
                     <input type="text"
-                           th:case="Time"
-                           th:id="${item.getValue()}"
-                           th:name="${item.getValue()}"
-                           th:value="${data.get(item.getValue())}"
-                           placeholder="选择日期"
-                           class="layui-input form-control">
+                       readonly
+                       th:required="${item.isRequired()}"
+                       th:case="Time"
+                       th:id="${item.getValue()}"
+                       th:name="${item.getValue()}"
+                       th:value="${data.get(item.getValue())}"
+                       placeholder="选择日期"
+                       class="layui-input form-control">
                     <input type="text"
-                           th:case="DateAndTime"
-                           th:id="${item.getValue()}"
-                           th:name="${item.getValue()}"
-                           th:value="${data.get(item.getValue())}"
-                           placeholder="选择日期"
-                           class="layui-input form-control">
+                       readonly
+                       th:required="${item.isRequired()}"
+                       th:case="DateAndTime"
+                       th:id="${item.getValue()}"
+                       th:name="${item.getValue()}"
+                       th:value="${data.get(item.getValue())}"
+                       placeholder="选择日期"
+                       class="layui-input form-control">
                     <input
-                            th:case="Number"
-                            th:id="${item.getValue()}"
-                            th:name="${item.getValue()}"
-                            th:value="${data.get(item.getValue())}"
-                            class="form-control"
-                            type="number"
-                            autocomplete="false">
+                        th:required="${item.isRequired()}"
+                        th:case="Number"
+                        th:id="${item.getValue()}"
+                        th:name="${item.getValue()}"
+                        th:value="${data.get(item.getValue())}"
+                        class="form-control"
+                        type="number"
+                        autocomplete="false">
                     <input
-                            th:case="Bool"
-                            th:id="${item.getValue()}"
-                            th:name="${item.getValue()}"
-                            th:value="${data.get(item.getValue())}"
-                            class="form-control"
-                            type="checkbox"
-                            autocomplete="false">
+                        th:required="${item.isRequired()}"
+                        th:case="Bool"
+                        th:id="${item.getValue()}"
+                        th:name="${item.getValue()}"
+                        th:value="${data.get(item.getValue())}"
+                        class="form-control"
+                        type="checkbox"
+                        autocomplete="false">
                     <select
-                            th:case="Enum"
-                            th:id="${item.getValue()}"
-                            th:name="${item.getValue()}"
-                            th:value="${data.get(item.getValue())}"
-                            class="form-control">
+                        readonly
+                        th:required="${item.isRequired()}"
+                        th:case="Enum"
+                        th:id="${item.getValue()}"
+                        th:name="${item.getValue()}"
+                        th:value="${data.get(item.getValue())}"
+                        class="form-control">
                         <option value>未选择</option>
                         <option
                             th:each="optionItem: ${item.getEnums().entrySet()}"
                             th:text="${optionItem.getValue()}"
+                            th:selected="${optionItem.getKey() == data.get(item.getValue())}"
                             th:value="${optionItem.getKey()}">
                         </option>
                     </select>
+                    <textarea
+                        th:required="${item.isRequired()}"
+                        th:case="TextArea"
+                        th:id="${item.getValue()}"
+                        th:name="${item.getValue()}"
+                        th:value="${data.get(item.getValue())}"
+                        class="form-control"
+                        autocomplete="false">
+                    </textarea>
+                    <th:block th:case="Image">
+                        <input
+                            readonly
+                            th:required="${item.isRequired()}"
+                            name="file_upload"
+                            id="ImageFile"
+                            type="file">
+                        <input
+                            readonly
+                            th:required="${item.isRequired()}"
+                            type="hidden"
+                            id="ImageFile_Id"
+                            th:name="${item.getValue()}"
+                            th:value="${data.get(item.getValue())}" >
+                    </th:block>
+
                     <pre
                         th:case="CodeLine"
                         th:id="${item.getValue()}"
@@ -119,11 +161,29 @@
     <script type="text/javascript" th:src="@{/js/ace/ace.js}"></script>
     <script type="text/javascript" th:src="@{/js/ace/ext-language_tools.js}"></script>
     <script type="text/javascript" th:src="@{/js/editor.js}"></script>
+    <th:block th:include="include :: bootstrap-fileinput-js" />
     <script th:inline="javascript">
         var buildData = [[${buildData}]]
         var items = [[${items}]]
         var data = [[${data}]]
         var prefix = ctx + "generalList/" + buildData.value;
+
+        $(document).ready(function () {
+            $("#ImageFile").fileinput({
+                'theme': 'explorer-fas',
+                'uploadUrl': '/api/file/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                allowedFileExtensions : ['jpeg', 'jpg', 'png']
+            })
+
+            $('#ImageFile').on('fileuploaded', function(event, data, index, fileId) {
+                console.log('文件上传成功', data.response);
+                //可以根据data处理你的业务
+                $("#ImageFile_Id").val(data.response.data)
+            });
+        });
+
         $("#form-add").validate({
             rules:{
                 xxxx:{

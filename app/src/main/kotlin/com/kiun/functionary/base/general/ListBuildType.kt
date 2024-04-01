@@ -31,12 +31,17 @@ object FormFlag
     /**
      * 修改时禁止编辑
      */
-    const val EditDisable = 0x10
+    const val EditDisable = 0x20
 
     /**
      * 搜索是禁用
      */
     const val SearchDisable = 0x40
+
+    /**
+     * 必填
+     */
+    const val Required = 0x80;
 
     /**
      * 全支持
@@ -126,6 +131,11 @@ enum class FormType{
      * 多行代码
      */
     CodeMultiline,
+
+    /**
+     * 图片
+     */
+    Image,
 
     /**
      * 文本域

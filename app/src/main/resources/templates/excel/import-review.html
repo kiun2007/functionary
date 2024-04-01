@@ -38,11 +38,22 @@
 		var reviewId = [[${reviewId}]]
 
 		function importStart(){
-			$.modal.loading("导入数据中，请稍后...")
-			$.operate.get(`/api/excel/importStart/${reviewId}`, ()=>{
 
-				$.modal.disable()
-				$.operate.close()
+			// $.modal.loading("导入数据中，请稍后...")
+			$.operate.get(`/api/excel/importStart/${reviewId}`, (result)=>{
+				console.log("=================")
+				$.modal.closeLoadingNow()
+				// $.operate.ajaxSuccess(result);
+				layer.alert("导入任务创建成功，请在[导入记录]中查看进度或执行决策", {
+					icon: $.modal.icon("success"),
+					title: "系统提示",
+					btn: ['确认'],
+					btnclass: ['btn btn-primary'],
+					yes: function (){
+						window.location = "/excel/importNotice"
+					}
+				})
+				return true
 			})
 		}
     </script>

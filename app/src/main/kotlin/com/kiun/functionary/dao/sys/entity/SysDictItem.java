@@ -70,6 +70,9 @@ public class SysDictItem extends IdRandom {
     @ListBuildItem(title = "排序")
     private Integer itemOrder;
 
+    @ApiModelProperty("树状机构时的层级")
+    private Integer level;
+
     /**
      * 添加用户ID
      */
@@ -235,5 +238,13 @@ public class SysDictItem extends IdRandom {
 
     public void setItemAlias(String itemAlias) {
         this.itemAlias = itemAlias;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

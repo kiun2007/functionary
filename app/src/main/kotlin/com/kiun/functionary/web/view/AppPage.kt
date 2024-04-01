@@ -13,4 +13,6 @@ class AppPage {
 
         return "app/index"
     }
+
+
 }

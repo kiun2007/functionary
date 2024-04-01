@@ -35,6 +35,7 @@ open class WebSecurityConfig {
         httpSecurity.authorizeHttpRequests {
             it.requestMatchers(
                     "/app",
+                    "/api/leida",
                     "/auth/login",
                     "/api/auth/login-form",
                     "/api/auth/send-sms",

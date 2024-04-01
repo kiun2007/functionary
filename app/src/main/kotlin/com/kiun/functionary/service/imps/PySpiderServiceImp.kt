@@ -78,20 +78,18 @@ class PySpiderServiceImp : PySpiderService {
             return dictItem.itemKey
         } else {
             //8.社区工作者：公告标题或公告正文包含有社区工作者 关键字的归为 社区工作者类
-            if (withKeyText(title, arrayOf("社区工作者", "网格")) || withKeyText(details, arrayOf("社区工作者", "网格"))){
-                return "gklx9"
+            return if (withKeyText(title, arrayOf("社区工作者", "网格")) || withKeyText(details, arrayOf("社区工作者", "网格"))){
+                "gklx9"
             }
             //9.招警：公告标题或公告正文包含有警察 关键字的归为 招警类
             else if (withKeyText(title, arrayOf("警察", "辅警")) || withKeyText(details, arrayOf("警察", "辅警"))){
-                return "gklx10"
+                "gklx10"
             }
             //10.法检：公告标题或公告正文包含有法院或检察院 ？关键字的归为 法检类
             else if (withKeyText(title, arrayOf("法院", "检察院")) || withKeyText(details, arrayOf("法院", "检察院"))){
-                return "gklx11"
-            }
-            else
-            {
-                return null
+                "gklx11"
+            } else {
+                null
             }
         }
     }
@@ -106,7 +104,6 @@ class PySpiderServiceImp : PySpiderService {
 
         //查询相关
         notice.type = getNoticeType(notice.type, notice.title, notice.details)
-
         val sysOrgan = organService?.createOrSearch(notice.organName!!, notice.type, notice.region)
 
         notice.rangCd = sysOrgan?.rangCd
@@ -299,15 +296,15 @@ class PySpiderServiceImp : PySpiderService {
     }
 
     override fun verifyNotice(jobInfo: NoticeListItem): Int {
-        val type = jobInfo.type?.let { getNoticeType(it, jobInfo.title) } ?: return 1
+        val type = jobInfo.type?.let { getNoticeType(it, jobInfo.title) }
 
         if (jobInfo.time?.contains("小时") == true || jobInfo.time?.contains("分钟") == true || jobInfo.time?.contains("刚刚") == true){
-            return 0
+            return if(type == null) 1 else 0
         }
 
         //30天内的数据
         if (jobInfo.time?.toDate("yyyy-MM-dd")?.plus(DateSpan(30, SpanType.Day))?.after(Date()) == true){
-            return 0
+            return if(type == null) 1 else 0
         }
         return 2
     }

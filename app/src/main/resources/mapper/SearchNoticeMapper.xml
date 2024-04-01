@@ -196,12 +196,13 @@
                 sdi.item_key
             FROM
             (
-              SELECT dict_item_key FROM gks_user_attribute WHERE user_id = #{userId} AND dict_id = 'gks_region'
+                SELECT dict_item_key FROM gks_user_attribute WHERE user_id = #{userId} AND dict_id = 'gks_region'
             ) user_region
+            LEFT JOIN sys_dict_item sdia ON sdia.dict_id = 'gks_region' AND user_region.dict_item_key = sdia.item_key
             LEFT JOIN sys_dict_item sdi
             ON sdi.dict_id = 'gks_region' AND
             (
-              sdi.item_key LIKE CONCAT(IF(SUBSTR(user_region.dict_item_key, 3, 4) = '0000', SUBSTR(user_region.dict_item_key, 1, 2), user_region.dict_item_key),'%')
+                sdi.item_key LIKE CONCAT(SUBSTR(user_region.dict_item_key, 1, sdia.`level` * 2),'%')
             )
           </if>
           <if test="region != null">

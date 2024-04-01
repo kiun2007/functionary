@@ -81,12 +81,14 @@
         <!-- 可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；-->
 <!--        <table tableName="gks_job_details" domainObjectName="JobDetails" />-->
 <!--        <table tableName="gks_agency" domainObjectName="Agency" />-->
-        <table tableName="gks_agency_record" domainObjectName="AgencyRecord" />
+<!--        <table tableName="v_agency_record" domainObjectName="VAgencyRecord" />-->
+<!--        <table tableName="gks_agency_record" domainObjectName="AgencyRecord" />-->
 <!--        <table tableName="gks_import_plan" domainObjectName="ImportPlan" />-->
 <!--        <table tableName="gks_plan_column" domainObjectName="ImportPlanColumn" />-->
 <!--        <table tableName="gks_job_must" domainObjectName="JobMust" />-->
 <!--        <table tableName="gks_job_must_age" domainObjectName="JobMustAge" />-->
 <!--        <table tableName="gks_job_notice" domainObjectName="JobNotice" />-->
+        <table tableName="v_job_notice_select" domainObjectName="VJobNoticeSelect" />
 <!--        <table tableName="v_gks_job_notice" domainObjectName="VJobNotice" />-->
 <!--        <table tableName="v_gks_job_notice_details" domainObjectName="VJobNoticeDetails" />-->
 <!--        <table tableName="v_root_dict_item" domainObjectName="VRootDictItem" />-->

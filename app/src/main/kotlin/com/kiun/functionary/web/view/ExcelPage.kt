@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 import java.util.LinkedList
 
 
@@ -31,7 +32,8 @@ class ExcelPage {
             label = "noticeName",
             formLabel = "title",
             formValue = "id",
-            url = "/general/select-list/JobNotice"),
+            url = "/general/select-list/VJobNoticeSelect?inputType=1"),
+            title = "公告",
             value = "noticeId",
             flag = 0
         )
@@ -50,5 +52,20 @@ class ExcelPage {
         mmap["list"] = newList
         mmap["reviewId"] = reviewId
         return "excel/import-review"
+    }
+
+    @GetMapping("/excel/importRecord")
+    fun allImportRecord(mmap: ModelMap): String {
+        return "excel/import-record"
+    }
+
+    @GetMapping("/excel/importError")
+    fun importError(@RequestParam("reviewId") reviewId: String, mmap: ModelMap): String {
+
+        val reviewData = excelService?.recordById(reviewId)
+
+        mmap["reviewId"] = reviewId
+        mmap["header"] = reviewData?.dataList?.firstOrNull()
+        return "excel/import-error"
     }
 }

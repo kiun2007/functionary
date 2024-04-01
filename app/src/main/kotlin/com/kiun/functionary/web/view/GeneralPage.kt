@@ -19,6 +19,12 @@ class GeneralPage {
     @Autowired
     val generalService: GeneralService? = null
 
+    @GetMapping("/system/main")
+    fun mainPage() : String
+    {
+        return "main"
+    }
+
     @GetMapping("/general/edit/{formId}")
     fun editView(
             @PathVariable("formId") formId: String,

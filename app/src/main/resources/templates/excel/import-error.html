@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('导入记录')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+	<div class="row">
+		<div class="btn-group-sm" id="toolbar" role="group">
+		</div>
+		<div class="col-sm-12 select-table table-striped">
+			<table id="bootstrap-table" data-mobile-responsive="true"></table>
+		</div>
+	</div>
+</div>
+
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+
+	var header = [[${header}]]
+	var reviewId = [[${reviewId}]]
+	var prefix = ctx + "api/excel"
+
+	console.log(header)
+	var titleArray = [
+		{
+			title: '行号',
+			field: 'row'
+		},
+		{
+			title: '列名称',
+			field: 'columnName'
+		},
+		{
+			title: '错误描述',
+			field: 'message'
+		}
+	]
+
+	for (let i = 0; i < header.length; i++) {
+		titleArray.push({
+			title: header[i],
+			formatter: function(value, row, index) {
+				return row.data[i]
+			}
+		})
+	}
+
+	$(function() {
+		var options = {
+			url: prefix + "/importError/" + reviewId,
+			removeUrl: prefix + "/remove/{id}",
+			modalName: "导入记录",
+			columns: titleArray
+		};
+		$.table.init(options);
+	});
+</script>
+</body>
+</html>

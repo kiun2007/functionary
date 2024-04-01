@@ -18,7 +18,7 @@ import static com.kiun.functionary.base.general.FormFlag.*;
 @ListBuild(value = "ImportPlanColumn", title = "列信息", operate = {
         @Operate(title = "添加", url = "/general/add/ImportPlanColumn?planId={planId}", icon = "fa-plus", toolbar = true),
         @Operate(title = "编辑", url = "/general/edit/ImportPlanColumn?id={id}&planId={planId}"),
-        @Operate(title = "删除", url = "/general/delete", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
+        @Operate(title = "删除", url = "/api/general/@{formId}/remove?id={id}", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
 })
 public class ImportPlanColumn extends IdRandom {
 
@@ -27,7 +27,7 @@ public class ImportPlanColumn extends IdRandom {
      * 编号
      */
     @ApiModelProperty("编号")
-    @ListBuildItem(title = "编号", flag = Non)
+    @ListBuildItem(title = "编号", flag = Edit | EditDisable, type = FormType.Hidden)
     private String id;
 
     /**

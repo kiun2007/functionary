@@ -1,6 +1,7 @@
 package com.kiun.functionary.dao.gks.entity;
 
 import com.kiun.functionary.base.general.FormFlag;
+import com.kiun.functionary.base.general.FormType;
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
@@ -13,7 +14,7 @@ import java.util.Date;
  *
  * gks_agency
  *
- * 2023-12-25 22:16:47
+ * 2023-12-28 17:53:09
  */
 @ApiModel(description="机构")
 @ListBuild(value = "Agency", title = "机构")
@@ -22,7 +23,7 @@ public class Agency extends IdRandom {
      * 机构ID
      */
     @ApiModelProperty("机构ID")
-    @ListBuildItem(title = "机构ID", flag = FormFlag.Non)
+    @ListBuildItem(title = "机构ID", flag = FormFlag.Edit|FormFlag.AddDisable|FormFlag.EditDisable)
     private String id;
 
     /**
@@ -40,10 +41,17 @@ public class Agency extends IdRandom {
     private String title;
 
     /**
+     * 描述
+     */
+    @ApiModelProperty("描述")
+    @ListBuildItem(title = "描述")
+    private String desc;
+
+    /**
      * 机构图标
      */
     @ApiModelProperty("机构图标")
-    @ListBuildItem(title = "机构图标")
+    @ListBuildItem(title = "机构图标", type = FormType.Image)
     private String logo;
 
     /**
@@ -168,6 +176,14 @@ public class Agency extends IdRandom {
 
     public void setUpdTerminalIp(String updTerminalIp) {
         this.updTerminalIp = updTerminalIp == null ? null : updTerminalIp.trim();
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     /**

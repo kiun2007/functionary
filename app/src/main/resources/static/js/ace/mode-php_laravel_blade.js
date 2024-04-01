@@ -5236,7 +5236,7 @@ var functionMap = {
     ],
     "ibase_trans": [
         "resource ibase_trans([int trans_args [, resource link_identifier [, ... ], int trans_args [, resource link_identifier [, ... ]] [, ...]]])",
-        "Start a transaction over one or several databases"
+        "Started a transaction over one or several databases"
     ],
     "ibase_wait_event": [
         "string ibase_wait_event([resource link_identifier,] string event [, string event [, ...]])",
@@ -6372,7 +6372,7 @@ var functionMap = {
     ],
     "ldap_start_tls": [
         "bool ldap_start_tls(resource link)",
-        "Start TLS"
+        "Started TLS"
     ],
     "ldap_t61_to_8859": [
         "string ldap_t61_to_8859(string value)",
@@ -11124,7 +11124,7 @@ var functionMap = {
     ],
     "xml_parse": [
         "int xml_parse(resource parser, string data [, int isFinal])",
-        "Start parsing an XML document"
+        "Started parsing an XML document"
     ],
     "xml_parse_into_struct": [
         "int xml_parse_into_struct(resource parser, string data, array &values [, array &index ])",
@@ -13951,4 +13951,3 @@ exports.Mode = Mode;
                         }
                     });
                 })();
-            

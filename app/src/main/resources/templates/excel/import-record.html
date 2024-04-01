@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('导入记录')" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+	<div class="row">
+		<div class="btn-group-sm" id="toolbar" role="group">
+		</div>
+		<div class="col-sm-12 select-table table-striped">
+			<table id="bootstrap-table" data-mobile-responsive="true"></table>
+		</div>
+	</div>
+</div>
+
+<th:block th:include="include :: footer" />
+<script th:inline="javascript">
+
+	var prefix = ctx + "api/excel";
+
+	function openError(reviewId){
+		var options = {
+			title: data.title + '选择',
+			width: "600",
+			url: url,
+			callBack: doSubmit.bind(data, isTree)
+		}
+		$.modal.openOptions(options);
+	}
+
+	$(function() {
+		var options = {
+			url: prefix + "/importRecord",
+			removeUrl: prefix + "/remove/{id}",
+			modalName: "导入记录",
+			columns: [
+				{
+					title: '方案名称',
+					field: 'planName'
+				},
+				{
+					title: '开始时间',
+					field: 'startTime'
+				},
+				{
+					title: '导入状态',
+					field: 'stateTitle'
+				},
+				{
+					title: '错误数量',
+					field: 'errorCount',
+					formatter: function(value, row, index) {
+						if(row.errorCount === 0){
+							return '0'
+						}
+						return `<a title="查看错误" onclick="$.operate.openModel('错误列表', '{}', '/excel/importError?reviewId=${row.id}')">${row.errorCount}</a>`
+					}
+				},
+				{
+					title: '完成进度',
+					formatter: function(value, row, index) {
+						return (row.completeCount / row.dataCount * 100).toFixed(2) + "%"
+					}
+				},
+				{
+					title: '操作',
+					width: '20%',
+					align: "left",
+					formatter: function(value, row, index) {
+						var actions = [];
+
+						if (row.state == 'Started'){
+							actions.push(`<a class="btn btn-warning btn-xs" onclick="$.operate.answerAndGet('/api/excel/stopImport/${row.id}', '是否中止当前导入?')"><i class="fa fa-close"></i>中止导入</a> `);
+						}
+
+						if(row.state == 'Ask'){
+							actions.push(`<a class="btn btn-warning btn-xs" onclick="$.operate.answerAndGet('/api/excel/importAnswer/${row.id}?content=C', '强制提交会导致数据丢失，是否继续?')"><i class="fa fa-upload"></i>强制提交</a> `);
+							actions.push(`<a class="btn btn-primary btn-xs" onclick="$.operate.answerAndGet('/api/excel/importAnswer/${row.id}?content=N', '是否取消提交?')"><i class="fa fa-close"></i>取消提交</a> `);
+						}
+
+						if(row.state != 'Ask' && row.state != 'Started'){
+							actions.push(`<a class="btn btn-danger btn-xs" onclick="$.operate.answerAndGet('/api/excel/deleteImport/${row.id}', '是否删除导入记录?')"><i class="fa fa-trash"></i>删除</a>`)
+						}
+
+						return actions.join('');
+					}
+				}]
+		};
+		$.table.init(options);
+	});
+</script>
+</body>
+</html>

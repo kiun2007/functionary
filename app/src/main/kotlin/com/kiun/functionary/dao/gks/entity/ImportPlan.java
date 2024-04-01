@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-import static com.kiun.functionary.base.general.FormFlag.Table;
+import static com.kiun.functionary.base.general.FormFlag.*;
 
 /**
  *
@@ -20,7 +20,8 @@ import static com.kiun.functionary.base.general.FormFlag.Table;
         @Operate(title = "添加", url = "/general/add/@{formId}", icon = "fa-plus", toolbar = true),
         @Operate(title = "编辑", url = "/general/edit/ImportPlan?id={id}"),
         @Operate(title = "列属性", url = "/general/list/ImportPlanColumn?planId={id}"),
-        @Operate(title = "删除", url = "remove", function = "remove", color = ButtonColor.Danger, icon = "fa-remove")
+        @Operate(title = "复制", url = "/api/import-plan/clone?id={id}", function = "copyUrl", color = ButtonColor.Warning, icon = "fa-clone"),
+        @Operate(title = "删除", url = "/api/general/@{formId}/remove?id={id}", function = "removeUrl", color = ButtonColor.Danger, icon = "fa-remove")
 })
 public class ImportPlan extends IdRandom {
 
@@ -28,28 +29,28 @@ public class ImportPlan extends IdRandom {
      * 主键
      */
     @ApiModelProperty("主键")
-    @ListBuildItem(title = "主键", flag = Table)
+    @ListBuildItem(title = "主键", flag = Table|Edit, type = FormType.Hidden)
     private String id;
 
     /**
      * 方案标题
      */
     @ApiModelProperty("方案标题")
-    @ListBuildItem(title = "方案标题")
+    @ListBuildItem(title = "方案标题", flag = All | Required)
     private String title;
 
     /**
      * 头部行号
      */
     @ApiModelProperty("头部行号")
-    @ListBuildItem(title = "头部行号")
+    @ListBuildItem(title = "头部行号", flag = All | Required)
     private Integer headIndex;
 
     /**
      * 分页字段
      */
     @ApiModelProperty("分页字段")
-    @ListBuildItem(title = "分页字段", type = FormType.Enum, enums = {
+    @ListBuildItem(title = "分页字段", type = FormType.Enum, flag = All, enums = {
             "年龄要求", "年龄要求",
             "专业要求", "专业要求",
             "备注", "备注",

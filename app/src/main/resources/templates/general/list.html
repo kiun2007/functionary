@@ -31,18 +31,24 @@
                                                th:case="Date"
                                                th:id="${item.getValue()}"
                                                th:name="${item.getValue()}"
+                                               readonly
+                                               autocomplete="false"
                                                placeholder="选择日期"
                                                class="layui-input">
                                         <input type="text"
                                                th:case="Time"
                                                th:id="${item.getValue()}"
                                                th:name="${item.getValue()}"
+                                               readonly
+                                               autocomplete="false"
                                                placeholder="选择日期"
                                                class="layui-input">
                                         <input type="text"
                                                th:case="DateAndTime"
                                                th:id="${item.getValue()}"
                                                th:name="${item.getValue()}"
+                                               readonly
+                                               autocomplete="false"
                                                placeholder="选择日期"
                                                class="layui-input">
                                         <input
@@ -145,7 +151,23 @@
             }
 
             var columns = items.map(item=> columnFormItem(item))
+            var listOperate =  buildData.operate.filter(item=> !item.toolbar)
 
+            var opt = {
+                title: '操作',
+                align: 'center',
+                width: `${66*listOperate.length}px`,
+                formatter: function(value, row, index) {
+                    var actions = []
+                    listOperate.forEach(item=> {
+                        if (item.toolbar) return
+                        if(item.function){
+                            actions.push(`<a class="btn btn-success btn-xs" href="javascript:void(0)" data="${encodeURI(JSON.stringify(row))}" style="background-color: ${item.color};border-color: ${item.color}" onclick="$.operate.${item.function}('${item.title}', $(this).attr('data'), '${item.url}')"><i class="fa ${item.icon}"></i>${item.title}</a>`);
+                        }
+                    })
+                    return actions.join(' ');
+                }
+            }
             $(function() {
                 var options = {
                     url: prefix + "/page",
@@ -160,21 +182,8 @@
                             checkbox: true,
                         },
                         ... columns,
-                        {
-                            title: '操作',
-                            align: 'center',
-                            width: '200px',
-                            formatter: function(value, row, index) {
-                                var actions = []
-                                buildData.operate.forEach(item=> {
-                                    if (item.toolbar) return
-                                    if(item.function){
-                                        actions.push(`<a class="btn btn-success btn-xs" href="javascript:void(0)" data="${encodeURI(JSON.stringify(row))}" style="background-color: ${item.color};border-color: ${item.color}" onclick="$.operate.${item.function}('${item.title}', $(this).attr('data'), '${item.url}')"><i class="fa ${item.icon}"></i>${item.title}</a>`);
-                                    }
-                                })
-                                return actions.join(' ');
-                            }
-                        }]
+                        listOperate.length && opt
+                        ]
                 };
                 $.table.init(options);
             });

@@ -19,7 +19,11 @@
                 <div class="form-group" th:each="item:${items}" th:if="${item.getAddWith()}">
                     <!--/*@thymesVar id="item" type="com.kiun.functionary.base.general.ListBuildItemData"*/-->
                     <!--/*@thymesVar id="initRequest" type="java.util.Map"*/-->
-                    <label th:if="${item.getType() != 'Hidden'}" class="col-sm-3 control-label" th:text="${item.getTitle()+':'}"></label>
+                    <label
+                        th:if="${item.getType() != 'Hidden'}"
+                        class="col-sm-3 control-label"
+                        th:text="${item.getTitle()+':'}"
+                        th:required="${item.isRequired()}"></label>
                     <div class="col-sm-8" th:switch="${item.getType()}">
                         <input
                             th:case="Hidden"
@@ -38,6 +42,7 @@
                                 onclick="selectValue(this)"
                                 th:id="${item.getSelectOpt().getLabel()}"
                                 readonly="true"
+                                th:required="${item.isRequired()}"
                                 th:data="${item.jsonString()}"
                                 th:name="${item.getSelectOpt().getLabel()}"
                                 th:value="${initRequest.get(item.getSelectOpt().getLabel())}">
@@ -49,10 +54,13 @@
                             th:name="${item.getValue()}"
                             th:value="${initRequest.get(item.getValue())}"
                             th:disabled="${item.addDisable}"
+                            th:required="${item.isRequired()}"
                             class="form-control"
                             type="text"
                             autocomplete="false">
                         <input type="text"
+                           readonly
+                           th:required="${item.isRequired()}"
                            th:case="Date"
                            th:id="${item.getValue()}"
                            th:name="${item.getValue()}"
@@ -61,6 +69,8 @@
                            placeholder="选择日期"
                            class="layui-input form-control">
                         <input type="text"
+                           readonly
+                           th:required="${item.isRequired()}"
                            th:case="Time"
                            th:id="${item.getValue()}"
                            th:name="${item.getValue()}"
@@ -69,6 +79,8 @@
                            placeholder="选择日期"
                            class="layui-input form-control">
                         <input type="text"
+                           readonly
+                           th:required="${item.isRequired()}"
                            th:case="DateAndTime"
                            th:id="${item.getValue()}"
                            th:name="${item.getValue()}"
@@ -77,6 +89,7 @@
                            placeholder="选择日期"
                            class="layui-input form-control">
                         <input
+                            th:required="${item.isRequired()}"
                             th:case="Number"
                             th:id="${item.getValue()}"
                             th:name="${item.getValue()}"
@@ -86,6 +99,8 @@
                             type="number"
                             autocomplete="false">
                         <input
+                            readonly
+                            th:required="${item.isRequired()}"
                             th:case="Bool"
                             th:id="${item.getValue()}"
                             th:name="${item.getValue()}"
@@ -95,6 +110,8 @@
                             type="checkbox"
                             autocomplete="false">
                         <select
+                            readonly
+                            th:required="${item.isRequired()}"
                             th:case="Enum"
                             th:id="${item.getValue()}"
                             th:name="${item.getValue()}"
@@ -108,6 +125,22 @@
                                     th:value="${optionItem.getKey()}">
                             </option>
                         </select>
+                        <textarea
+                            th:required="${item.isRequired()}"
+                            th:case="TextArea"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            class="form-control"
+                            autocomplete="false">
+                        </textarea>
+                        <input
+                            readonly
+                            th:required="${item.isRequired()}"
+                            th:case="Image"
+                            th:id="${item.getValue()}"
+                            th:name="${item.getValue()}"
+                            class="form-control"
+                            type="file">
                         <pre
                             th:case="CodeLine"
                             th:id="${item.getValue()}"

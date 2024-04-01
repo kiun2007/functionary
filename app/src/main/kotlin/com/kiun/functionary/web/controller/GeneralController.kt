@@ -56,7 +56,7 @@ class GeneralController {
     }
 
 
-    @PostMapping("{tableName}/remove")
+    @RequestMapping("{tableName}/remove")
     fun remove(@PathVariable("tableName") tableName: String, @RequestParam req: MutableMap<String, Any>) : DataWrap<Boolean> {
         return DataWrap.success(generalService?.delete(tableName, req))
     }

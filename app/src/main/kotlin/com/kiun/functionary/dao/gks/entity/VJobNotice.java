@@ -39,42 +39,42 @@ public class VJobNotice extends IdRandom {
      * 发布时间
      */
     @ApiModelProperty("发布时间")
-    @ListBuildItem(title = "发布时间")
+    @ListBuildItem(title = "发布时间", flag = FormFlag.Table|FormFlag.Search)
     private Date publishTime;
 
     /**
      * 招聘单位
      */
     @ApiModelProperty("招聘单位")
-    @ListBuildItem(title = "招聘单位", flag = FormFlag.Non)
+    @ListBuildItem(title = "招聘单位")
     private String organId;
 
     /**
      * 机构名
      */
     @ApiModelProperty("机构名")
-    @ListBuildItem(title = "招聘单位")
+    @ListBuildItem(title = "招聘单位", flag = FormFlag.Table)
     private String organName;
 
     /**
      * 信息发布网址
      */
     @ApiModelProperty("信息发布网址")
-    @ListBuildItem(title = "信息发布网址")
+    @ListBuildItem(title = "信息发布网址", flag = FormFlag.Table)
     private String infoUrl;
 
     /**
      * 招聘发布网址
      */
     @ApiModelProperty("招聘发布网址")
-    @ListBuildItem(title = "招聘发布网址")
+    @ListBuildItem(title = "招聘发布网址", flag = FormFlag.Table)
     private String jobUrl;
 
     /**
      * 详情页网址
      */
     @ApiModelProperty("详情页网址")
-    @ListBuildItem(title = "详情页网址")
+    @ListBuildItem(title = "详情页网址", flag = FormFlag.Table)
     private String detailUrl;
 
     /**

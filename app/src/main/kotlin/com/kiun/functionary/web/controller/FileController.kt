@@ -37,9 +37,9 @@ class FileController {
 
     @PostMapping("/upload")
     @Throws(IOException::class)
-    fun upload(@RequestParam file: MultipartFile): DataWrap<Boolean> {
+    fun upload(@RequestParam file_upload: MultipartFile): DataWrap<String> {
 
-        file.transferTo(File(fileProperty?.path + "/" + file.originalFilename))
-        return DataWrap.success()
+        file_upload.transferTo(File(fileProperty?.path + "/" + file_upload.originalFilename))
+        return DataWrap.success(file_upload.originalFilename)
     }
 }

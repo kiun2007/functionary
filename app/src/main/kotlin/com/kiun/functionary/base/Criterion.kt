@@ -1,6 +1,7 @@
 package com.kiun.functionary.base
 
 data class Criterion(
+
         var condition: String? = null,
 
         var value: Any? = null,
