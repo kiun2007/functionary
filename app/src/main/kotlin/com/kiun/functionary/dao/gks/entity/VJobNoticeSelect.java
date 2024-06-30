@@ -1,31 +1,27 @@
 package com.kiun.functionary.dao.gks.entity;
 
-import com.kiun.functionary.base.general.FormFlag;
-import com.kiun.functionary.base.general.FormType;
 import com.kiun.functionary.base.general.ListBuild;
 import com.kiun.functionary.base.general.ListBuildItem;
 import com.kiun.functionary.dao.IdRandom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.poi.ss.usermodel.Table;
-
 import java.util.Date;
 
 /**
  * VIEW
- *
+ * 
  * v_job_notice_select
  *
- * 2024-01-20 15:54:48
+ * 2024-05-26 09:49:31
  */
 @ApiModel(description="VIEW")
-@ListBuild(value = "VJobNoticeSelect", title = "公告选择", operate = {})
+@ListBuild(value = "VJobNoticeSelect", title = "VIEW")
 public class VJobNoticeSelect extends IdRandom {
     /**
      * 主键
      */
     @ApiModelProperty("主键")
-    @ListBuildItem(title = "主键", flag = FormFlag.Edit|FormFlag.EditDisable, type = FormType.Hidden)
+    @ListBuildItem(title = "主键")
     private String id;
 
     /**
@@ -39,28 +35,28 @@ public class VJobNoticeSelect extends IdRandom {
      * 发布时间
      */
     @ApiModelProperty("发布时间")
-    @ListBuildItem(title = "发布时间", flag = FormFlag.Table)
+    @ListBuildItem(title = "发布时间")
     private Date publishTime;
 
     /**
      * 字典值
      */
     @ApiModelProperty("字典值")
-    @ListBuildItem(title = "考试类型", flag = FormFlag.Table)
+    @ListBuildItem(title = "字典值")
     private String typeName;
 
     /**
      * 区域名称
      */
     @ApiModelProperty("区域名称")
-    @ListBuildItem(title = "考试区域")
+    @ListBuildItem(title = "区域名称")
     private String rangName;
 
     /**
      * 输入类型
      */
     @ApiModelProperty("输入类型")
-    @ListBuildItem(title = "录入类型", type = FormType.Enum, enums = {"0", "自动导入/爬虫", "1", "手动录入"})
+    @ListBuildItem(title = "输入类型")
     private String inputType;
 
     public String getId() {

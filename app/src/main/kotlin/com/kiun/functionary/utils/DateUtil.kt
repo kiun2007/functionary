@@ -62,6 +62,14 @@ operator fun Date.plus(span: DateSpan): Date {
     }
     return calendar.time
 }
+inline fun Date.firstSecond() : Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.set(Calendar.HOUR, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    return calendar.time
+}
 
 inline fun String.toDate(format: String): Date{
 

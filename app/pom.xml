@@ -5,7 +5,7 @@
     <packaging>jar</packaging>
     <parent>
         <artifactId>functionary</artifactId>
-        <groupId>io.github.kiun2007</groupId>
+        <groupId>io.gitee.kiun2007</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>app</artifactId>
@@ -123,6 +123,13 @@
             <artifactId>tika-core</artifactId>
             <version>1.25</version>
         </dependency>
+
+        <!--微信支付-->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-java</artifactId>
+            <version>0.2.12</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -188,7 +195,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>io.github.kiun2007</groupId>
+                <groupId>io.gitee.kiun2007</groupId>
                 <artifactId>mybatis-auto-generate-maven-plugin</artifactId>
                 <version>${mybatis.auto.generate.version}</version>
                 <executions>
@@ -204,8 +211,15 @@
                             <path>${project.basedir}/generate/mybatis-gks.xml</path>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>create-lz</id>
+                        <configuration>
+                            <path>${project.basedir}/generate/mybatis-lz.xml</path>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>

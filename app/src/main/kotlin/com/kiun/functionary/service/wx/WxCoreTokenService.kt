@@ -28,7 +28,6 @@ class WxCoreTokenService {
     fun tokenGet(){
         miniAppToken = null
         synchronized(this){
-
             val token = wxOpenService?.token()
             if(token?.errcode == 0){
                 miniAppToken = token.access_token

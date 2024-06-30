@@ -22,5 +22,10 @@ class ConstValue {
             "区域", "区域",
             "recruitNum", "招聘人数",
         )
+
+        /**
+         * 单注价格
+         */
+        val BettingPrice = 20
     }
 }
